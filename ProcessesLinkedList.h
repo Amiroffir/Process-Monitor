@@ -1,0 +1,10 @@
+struct processinformation* addProcess(struct processinformation* current);
+struct dllInfo* addDllToList(struct dllInfo* current);
+struct processinformation* addExtraProcess(struct processinformation* destList, struct processinformation* addToList);
+struct processinformation* addExtraDlls(struct dllInfo* destDlls, struct dllInfo* dllToAdd);
+void addSnapshot(struct processinformation* currentSnapshot);
+void resetSnapshotCollection();
+void printProcessesList(struct processinformation* current);
+void printSnapshots();
+void listInit();
+void dllListInit();
