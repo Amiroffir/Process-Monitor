@@ -2,6 +2,7 @@
 #include <time.h>
 typedef struct DllInfo {
 	char dllName[MAX_PATH];
+	unsigned int privateLoadedDlls;
 	struct dllInfo* next;
 	struct dllInfo* prev;
 }dllInfo;
@@ -18,7 +19,7 @@ typedef struct ProcessInfo {
 	unsigned int processID;
 	memoryinfo memoryinfo;
 	dllInfo* dllInfo;
-	unsigned int loadedDlls;
+	unsigned int totalLoadedDlls;
 	char snapshotTime[100];
 	unsigned int snapshotCounter;
 	struct processinformation* next;

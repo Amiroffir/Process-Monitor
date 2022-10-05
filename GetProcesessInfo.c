@@ -89,7 +89,8 @@ char strTime[100];
 				currentP->dllInfo = addDllToList(currentD);
 			}
 		}
-		currentP->loadedDlls = dllCounter;
+		currentP->dllInfo->privateLoadedDlls = dllCounter;
+		currentP->totalLoadedDlls = dllCounter;
 		dllCounter = 0;
 	}
 

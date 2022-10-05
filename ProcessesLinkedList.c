@@ -23,7 +23,7 @@ struct processinformation* addProcess(processinformation* current)
 	currentProcess->processID = current->processID;
 	currentProcess->memoryinfo = current->memoryinfo;
 	currentProcess->dllInfo = current->dllInfo;
-	currentProcess->loadedDlls = current->loadedDlls;
+	currentProcess->totalLoadedDlls = current->totalLoadedDlls;
 	currentProcess->snapshotCounter = current->snapshotCounter;
     strcpy(currentProcess->snapshotTime, current->snapshotTime);
 	
@@ -77,6 +77,7 @@ struct dllInfo* extraDllsCheck(dllInfo* destDll, dllInfo* dllToAdd) {
 		}
 		if (foundIdenticalDll == 0) {
 			destDll = addExtraDlls(destDll, dllToAddRunner);
+			destDll->privateLoadedDlls++;
 		}
 		dllToAddRunner = dllToAddRunner->next;
 	}
@@ -163,7 +164,7 @@ void printSnapshots() {
 			printf("Process memory info: %d\n", current->memoryinfo.QuotaPagedPoolUsage);
 			printf("Process memory info: %d\n", current->memoryinfo.QuotaPeakPagedPoolUsage);
 			printf("Process memory info: %d\n", current->memoryinfo.PagefileUsage);
-			printf("Process loaded dlls: %d\n", current->loadedDlls);
+			printf("Process loaded dlls: %d\n", current->totalLoadedDlls);
 			printf("Process snapshot time: %s\n", current->snapshotTime);
 			printf("Process snapshot counter: %d\n", current->snapshotCounter);
 			currD = current->dllInfo;

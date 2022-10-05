@@ -31,7 +31,7 @@ struct processinformation* sumProcessesInfo(processinformation* destSnapshot, pr
 				destRunner->memoryinfo.PagefileUsage += processToAddRunner->memoryinfo.PagefileUsage;
 				destRunner->memoryinfo.WorkingSetSize += processToAddRunner->memoryinfo.WorkingSetSize;
 				destRunner->dllInfo = extraDllsCheck(destRunner->dllInfo, processToAddRunner->dllInfo);
-				destRunner->loadedDlls += processToAddRunner->loadedDlls;
+				destRunner->totalLoadedDlls += processToAddRunner->totalLoadedDlls;
 				break;
 			}
 			destRunner = destRunner->next;
