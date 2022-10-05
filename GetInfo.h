@@ -13,6 +13,7 @@ typedef struct MemoryInfo {
 	unsigned long long PagefileUsage;
 } memoryinfo;
 typedef struct ProcessInfo {
+	unsigned int loadedProcesses;
 	char processName[MAX_PATH];
 	unsigned int processID;
 	memoryinfo memoryinfo;

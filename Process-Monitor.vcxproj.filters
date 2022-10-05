@@ -27,7 +27,7 @@
     <ClCompile Include="ProcessesLinkedList.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SaveToFile.c">
+    <ClCompile Include="saveAndLoad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoadFromFile.c">
@@ -48,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProcessesLinkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saveAndLoad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

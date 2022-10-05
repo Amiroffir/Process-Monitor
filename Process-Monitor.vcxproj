@@ -136,13 +136,14 @@
     <ClCompile Include="ProcessesLinkedList.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="GetProcesessInfo.c" />
-    <ClCompile Include="SaveToFile.c" />
+    <ClCompile Include="saveAndLoad.c" />
     <ClCompile Include="UserMenu.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GetInfo.h" />
     <ClInclude Include="MyUtilities.h" />
     <ClInclude Include="ProcessesLinkedList.h" />
+    <ClInclude Include="saveAndLoad.h" />
     <ClInclude Include="UserMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

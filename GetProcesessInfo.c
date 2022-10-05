@@ -9,6 +9,7 @@
 #include <time.h>
 #pragma warning(disable:4996)
 int dllCounter;
+int processCounter;
 processinformation* currProcess;
 char strTime[100];
 
@@ -37,6 +38,7 @@ char strTime[100];
 	if (GetModuleFileNameEx(hProcess, 0, Buffer, MAX_PATH))
 	{
 		// At this point, buffer contains the full path to the executable
+		
 		char processName[MAX_PATH];
 		size_t numConverted1;
 		wcstombs_s(&numConverted1, processName, MAX_PATH, Buffer, MAX_PATH);
@@ -60,9 +62,6 @@ char strTime[100];
 		currentM.PagefileUsage = pmc.PagefileUsage;
 		currentP->memoryinfo = currentM; // add the memory info to the current process
 	}
-
-
-
 
 
 	// Get Dlls List
@@ -130,9 +129,12 @@ char strTime[100];
 	{
 		currProcess = GetMemoryInfo(aProcesses[i]);
 		if (currProcess != NULL) {
+			processCounter++;
 			HeadOfProcessList = addProcess(currProcess);
 		}
 	}
 	// For each Process to get its Memory Information
+	HeadOfProcessList->loadedProcesses = processCounter;
+	processCounter = 0;
 	return HeadOfProcessList;
 }

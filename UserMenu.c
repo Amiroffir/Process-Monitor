@@ -1,97 +1,16 @@
 #include "UserMenu.h"
 #include "GetInfo.h"
 #include "ProcessesLinkedList.h"
+#include "saveAndLoad.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #pragma warning(disable:4996)
 
-processinformation* tempSnapHead;
-processinformation* oneSnapHead;
-processinformation* twentySnapHead;
- processinformation* longSnapHead;
-
- struct processinformation* addExtraDlls(dllInfo* destDlls, dllInfo* dllToAdd) {
-	 dllInfo* findLast;
-	 findLast = destDlls;
-	 while (findLast->next != NULL)
-	 {
-		 findLast = findLast->next;
-	 }
-	 findLast->next = dllToAdd;
-	 dllToAdd->prev = findLast;
-	 dllToAdd->next = NULL;
-	 return destDlls;
- }
-
- struct processinformation* addExtraProcess(processinformation* destList, processinformation* addToList) {
-	 processinformation* findLast;
-	 findLast = destList;
-	 while (findLast->next != NULL)
-	 {
-		 findLast = findLast->next;
-	 }
-	 findLast->next = addToList;
-	 addToList->prev = findLast;
-	 addToList->next = NULL;
-	 return destList;
- }
- void dllsCount(processinformation* snapHead) {
-	 processinformation* currentP;
-	 currentP = snapHead;
-	 dllInfo* currentD;
-	 int dllCount = 0;
-	 while (currentP != NULL)
-	 {
-		 currentD = currentP->dllInfo;
-		 while (currentD != NULL)
-		 {
-			 dllCount++;
-			 currentD = currentD->next;
-		 }
-		 currentP = currentP->next;
-	 }
-	 printf("Number of DLLs: %d\n", dllCount);
- }
- // Utility function
- void processesCount(processinformation* snapHead) {
-	 
-		 processinformation* current;
-		 current = (processinformation*)malloc(sizeof(processinformation));
-		 current = snapHead;
-		 int i = 0;
-		 while (current != NULL)
-		 {
-			 i++;
-			 current = current->next;
-		 }
-		 printf("Number of processes: %d\n", i);
-}
-
-
-struct dllInfo* extraDllsCheck(dllInfo* destDll, dllInfo* dllToAdd) {
-	 int foundIdenticalDll;
-	 dllInfo* destDllRunner;
-	 dllInfo* dllToAddRunner = dllToAdd;
-	 while (dllToAddRunner != NULL) {
-		 foundIdenticalDll = 0;
-		 destDllRunner = destDll;
-		 while (destDllRunner != NULL) {
-			
-			 if (strcmp(destDllRunner->dllName, dllToAddRunner->dllName) == 0) {
-				 foundIdenticalDll = 1;
-				 break;
-			}
-			 destDllRunner = destDllRunner->next;
-		}
-		 if (foundIdenticalDll == 0) {
-			 destDll =  addExtraDlls(destDll,dllToAddRunner);
-		}
-		 dllToAddRunner = dllToAddRunner->next;
-	}
-	 return destDll;
- }
-
+//processinformation* tempSnapHead;
+//processinformation* oneSnapHead;
+//processinformation* twentySnapHead;
+// processinformation* longSnapHead;
 
 struct processinformation* sumProcessesInfo(processinformation* destSnapshot, processinformation* processToAdd) {
 	int foundIdenticalProcess;
@@ -118,6 +37,7 @@ struct processinformation* sumProcessesInfo(processinformation* destSnapshot, pr
 			destRunner = destRunner->next;
 		}
 		if (foundIdenticalProcess == 0) {
+			destSnapshot->loadedProcesses++;
 			destSnapshot = addExtraProcess(destSnapshot,processToAddRunner);
 		}
 		processToAddRunner = processToAddRunner->next;
@@ -125,7 +45,40 @@ struct processinformation* sumProcessesInfo(processinformation* destSnapshot, pr
 	return destSnapshot;
 }
  
-
+ unsigned int dllsCount(processinformation* snapHead) {
+	 processinformation* currentP;
+	 currentP = snapHead;
+	 dllInfo* currentD;
+	 unsigned int dllCount = 0;
+	 while (currentP != NULL)
+	 {
+		 currentD = currentP->dllInfo;
+		 while (currentD != NULL)
+		 {
+			 dllCount++;
+			 currentD = currentD->next;
+		 }
+		 currentP = currentP->next;
+	 }
+	 //printf("Number of DLLs: %d\n", dllCount);
+	 return  dllCount;
+ }
+ // Utility function
+ unsigned int processesCount(processinformation* snapHead) {
+	 
+		 processinformation* current;
+		 current = (processinformation*)malloc(sizeof(processinformation));
+		 current = snapHead;
+		 unsigned int procesessCount = 0;
+		 while (current != NULL)
+		 {
+			 procesessCount++;
+			 current = current->next;
+		 }
+		// printf("%d", procesessCount);
+		 return procesessCount;
+}
+ 
 char snapshotListStatus[150] = "Empty";
 
 
@@ -135,7 +88,7 @@ int chosenNumber = 0;
 while (chosenNumber != 9)
 {
 	printf("%s", snapshotListStatus);
-	printf("\n*********MENU************\ntype number for execution\n'1'. Take One SnapShot\n'2'. Take 20 SnapShots\n'3'. Start Long SnapShot\n'4'. End Long SnapShot\n'5'. Generate HTML Report\n'6'. Reset Collections\n'7'. Save in File\n'8'. Load from File\n'9'. Quit\n");
+	printf("\n*********MENU************\ntype number for execution\n'1'. Take One SnapShot\n'2'. Take 20 SnapShots\n'3'. Start Long SnapShot\n'4'. End Long SnapShot\n'5'. Generate HTML Report\n'6'. Reset Collections\n'7'. Save in File\n'8'. loadFromFile from File\n'9'. Quit\n");
 	scanf("%d", &chosenNumber);
 	
 		switch (chosenNumber)
@@ -187,6 +140,7 @@ while (chosenNumber != 9)
 			}
 			
 			addSnapshot(twentySnapHead);
+
 			if (snapshotCounter == 1) {
 				strcpy(snapshotListStatus, "\n20 sec SnapShot->");
 			}
@@ -209,6 +163,12 @@ while (chosenNumber != 9)
 				Sleep(1000);
 				if (_getch() == '4') {
 					addSnapshot(longSnapHead);
+					if (snapshotCounter == 1) {
+						strcpy(snapshotListStatus, "\nLong snapshot->");
+					}
+					else {
+						strcat(snapshotListStatus, "Long snapshot-> ");
+					}
 					break;
 				}
 			}
@@ -233,10 +193,12 @@ while (chosenNumber != 9)
 			break;
 		case 7:
 			printf("\nSave in File\n");
+			saveToFile();
 			// write to log file here (Local or Global).
 			break;
 		case 8:
 			printf("\nLoad from File\n");
+			loadFromFile();
 			// write to log file here (Local or Global).
 			break;
 		case 9:
