@@ -1,6 +1,7 @@
 #include "MyUtilities.h"
 #include "ProcessesLinkedList.h"
 #include "GetInfo.h"
+#include "UserMenu.h"
 #include "saveAndLoad.h"
 #include <stdio.h>
 #include <string.h>
@@ -27,14 +28,16 @@ void saveToFile() {
 		return;
 	}
 	 // write to log
-	int processesNum;
+	//int processesNum;
 	snapshotsList* currentS = snapshotListHead;
 	fwrite(&header, sizeof(snapList_Header), 1, fp);
 	for (int i = 0; i < header.snapshotsCount; i++) {
 		processinformation* currentP = currentS->snapshotData;
-		processesNum = currentP->loadedProcesses;
-		fwrite(&currentP->loadedProcesses, sizeof(unsigned int), 1, fp);
-		for(int i = 0; i < processesNum; i++){
+		//processesNum = currentP->loadedProcesses;
+		//fwrite(&currentP->loadedProcesses, sizeof(unsigned int), 1, fp);
+		process_header.loadedProcesses = processesCount(currentP);
+		fwrite(&process_header, sizeof(processesList_Header), 1, fp);
+		for(int i = 0; i < process_header.loadedProcesses; i++){
 		fwrite(&currentP->snapshotCounter, sizeof(unsigned int), 1, fp);
 		fwrite(&currentP->snapshotTime, sizeof(char) * 100, 1, fp);
 		fwrite(&currentP->processID, sizeof(unsigned int), 1, fp);
@@ -42,12 +45,14 @@ void saveToFile() {
 		fwrite(&currentP->memoryinfo, sizeof(memoryinfo), 1, fp);
 		fwrite(&currentP->totalLoadedDlls, sizeof(unsigned int), 1, fp);
 		dllInfo* currentD = currentP->dllInfo;
-		int dllNumber = currentD->privateLoadedDlls;
-		fwrite(&currentD->privateLoadedDlls, sizeof(unsigned int), 1, fp);
-			for (int j = 0; j < dllNumber; j++) {
-			if (currentD->dllName == NULL) {
-				break;
-			}
+		//int dllNumber = currentD->privateLoadedDlls;
+		dlls_header.privateLoadedDlls = dllsCount(currentD);
+		fwrite(&dlls_header, sizeof(dllsList_Header), 1, fp);
+		//fwrite(&currentD->privateLoadedDlls, sizeof(unsigned int), 1, fp);
+			for (int j = 0; j < dlls_header.privateLoadedDlls; j++) {
+			//if (currentD->dllName == NULL) {
+			//	break;
+		//	}
 			fwrite(&currentD->dllName, sizeof(char) * 260, 1, fp);
 			currentD = currentD->next;
 			}
@@ -77,51 +82,53 @@ void loadFromFile() {
 		for (int snapshotNumber = 0; snapshotNumber < header.snapshotsCount; snapshotNumber++)
 		{
 			processinformation* newSnap = NULL;
-			processinformation* currSnap = (processinformation*)malloc(sizeof(processinformation));
-				fread(&currSnap->loadedProcesses, sizeof(unsigned int), 1, fp);
-			    fread(&currSnap->snapshotCounter, sizeof(unsigned int), 1, fp);
-				fread(&currSnap->snapshotTime, sizeof(char) * 100, 1, fp);
-				fread(&currSnap->processID, sizeof(unsigned int), 1, fp);
-				fread(&currSnap->processName, sizeof(char) * 260, 1, fp);
-				fread(&currSnap->memoryinfo, sizeof(memoryinfo), 1, fp);
-				fread(&currSnap->totalLoadedDlls, sizeof(unsigned int), 1, fp);
+			//processinformation* currSnap = (processinformation*)malloc(sizeof(processinformation));
+				//fread(&currSnap->loadedProcesses, sizeof(unsigned int), 1, fp);
+			   // fread(&currSnap->snapshotCounter, sizeof(unsigned int), 1, fp);
+				//fread(&currSnap->snapshotTime, sizeof(char) * 100, 1, fp);
+				//fread(&currSnap->processID, sizeof(unsigned int), 1, fp);
+				//fread(&currSnap->processName, sizeof(char) * 260, 1, fp);
+			//	fread(&currSnap->memoryinfo, sizeof(memoryinfo), 1, fp);
+			//	fread(&currSnap->totalLoadedDlls, sizeof(unsigned int), 1, fp);
 				
-				dllInfo* currDll = (dllInfo*)malloc(sizeof(dllInfo));
-				fread(&currDll->privateLoadedDlls, sizeof(unsigned int), 1, fp);
-				for (int j = 0; j < currDll->privateLoadedDlls; j++) {
-					fread(&currDll->dllName, sizeof(currDll->dllName), 1, fp);
-					if (currDll->dllName == NULL) {
-						break;
-					}
-					currSnap->dllInfo=addDllToList(currDll);
-				}
+				//dllInfo* currDll = (dllInfo*)malloc(sizeof(dllInfo));
+				//fread(&currDll->privateLoadedDlls, sizeof(unsigned int), 1, fp);
+				//for (int j = 0; j < currDll->privateLoadedDlls; j++) {
+				//	fread(&currDll->dllName, sizeof(currDll->dllName), 1, fp);
+				//	if (currDll->dllName == NULL) {
+				//		break;
+				//	}
+			//		currSnap->dllInfo=addDllToList(currDll);
+				//}
 				
-				addProcess(currSnap);
-				int processesCount = currSnap->loadedProcesses - 1;
-
-				for (int i = 0; i < processesCount; i++) {
+			//	addProcess(currSnap);
+			//	int processesCount = currSnap->loadedProcesses - 1;
+			if (fread(&process_header, sizeof(processesList_Header), 1, fp) != 0) {
+				for (int i = 0; i < process_header.loadedProcesses; i++) {
 					processinformation* currSnap = (processinformation*)malloc(sizeof(processinformation));
 					//fread(&currSnap->loadedProcesses, sizeof(unsigned int), 1, fp);
-					fread(&currSnap->snapshotCounter, sizeof(unsigned int) , 1, fp);
+					fread(&currSnap->snapshotCounter, sizeof(unsigned int), 1, fp);
 					fread(&currSnap->snapshotTime, sizeof(char) * 100, 1, fp);
 					fread(&currSnap->processID, sizeof(unsigned int), 1, fp);
 					fread(&currSnap->processName, sizeof(char) * 260, 1, fp);
 					fread(&currSnap->memoryinfo, sizeof(memoryinfo), 1, fp);
 					fread(&currSnap->totalLoadedDlls, sizeof(unsigned int), 1, fp);
 					dllInfo* currDll = (dllInfo*)malloc(sizeof(dllInfo));
-					fread(&currDll->privateLoadedDlls, sizeof(unsigned int), 1, fp);
-					for (int j = 0; j < currDll->privateLoadedDlls; j++) {
-						fread(&currDll->dllName, sizeof(currDll->dllName), 1, fp);
-						if (currDll->dllName == NULL) {
-							break;
+					if (fread(&dlls_header, sizeof(dllsList_Header), 1, fp) != 0) {
+
+						//fread(&currDll->privateLoadedDlls, sizeof(unsigned int), 1, fp);
+						for (int j = 0; j < dlls_header.privateLoadedDlls; j++) {
+							fread(&currDll->dllName, sizeof(currDll->dllName), 1, fp);
+							//if (currDll->dllName == NULL) {
+							//	break;
+							//}
+							currSnap->dllInfo = addDllToList(currDll);
 						}
-						currSnap->dllInfo = addDllToList(currDll);
-						
+						dllListInit();
 					}
-					dllListInit();
 					newSnap = addProcess(currSnap);
 				}
-				
+			}
 				addSnapshot(newSnap);
 				listInit();
 			}

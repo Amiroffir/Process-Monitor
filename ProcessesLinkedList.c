@@ -18,7 +18,7 @@ struct processinformation* addProcess(processinformation* current)
   
     processinformation* currentProcess;
     currentProcess = (processinformation*)malloc(sizeof(processinformation));
-	currentProcess->loadedProcesses = current->loadedProcesses;
+	//currentProcess->loadedProcesses = current->loadedProcesses;
     strcpy(currentProcess->processName,current->processName);
 	currentProcess->processID = current->processID;
 	currentProcess->memoryinfo = current->memoryinfo;
@@ -77,7 +77,7 @@ struct dllInfo* extraDllsCheck(dllInfo* destDll, dllInfo* dllToAdd) {
 		}
 		if (foundIdenticalDll == 0) {
 			destDll = addExtraDlls(destDll, dllToAddRunner);
-			destDll->privateLoadedDlls++;
+			//destDll->privateLoadedDlls++;
 		}
 		dllToAddRunner = dllToAddRunner->next;
 	}
@@ -180,7 +180,7 @@ void printSnapshots() {
     printf("NULL");
 }
 //Utility function
-void printProcessesList(processinformation* current)
+/*void printProcessesList(processinformation* current)
 {
 		processinformation* curr;
 		curr = current;
@@ -196,7 +196,7 @@ void printProcessesList(processinformation* current)
 			curr = curr->next;
 		}
 	}
-
+	*/
 void resetSnapshotCollection() {
 	snapshotsList* curr;
 	snapshotsList* release;

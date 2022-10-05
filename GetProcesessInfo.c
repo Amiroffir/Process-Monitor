@@ -9,7 +9,7 @@
 #include <time.h>
 #pragma warning(disable:4996)
 int dllCounter;
-int processCounter;
+//int processCounter;
 processinformation* currProcess;
 char strTime[100];
 
@@ -89,7 +89,7 @@ char strTime[100];
 				currentP->dllInfo = addDllToList(currentD);
 			}
 		}
-		currentP->dllInfo->privateLoadedDlls = dllCounter;
+		//currentP->dllInfo->privateLoadedDlls = dllCounter;
 		currentP->totalLoadedDlls = dllCounter;
 		dllCounter = 0;
 	}
@@ -130,12 +130,12 @@ char strTime[100];
 	{
 		currProcess = GetMemoryInfo(aProcesses[i]);
 		if (currProcess != NULL) {
-			processCounter++;
+			//processCounter++;
 			HeadOfProcessList = addProcess(currProcess);
 		}
 	}
 	// For each Process to get its Memory Information
-	HeadOfProcessList->loadedProcesses = processCounter;
-	processCounter = 0;
+	//HeadOfProcessList->loadedProcesses = processCounter;
+	//processCounter = 0;
 	return HeadOfProcessList;
 }

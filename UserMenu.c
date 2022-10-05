@@ -37,7 +37,7 @@ struct processinformation* sumProcessesInfo(processinformation* destSnapshot, pr
 			destRunner = destRunner->next;
 		}
 		if (foundIdenticalProcess == 0) {
-			destSnapshot->loadedProcesses++;
+			//destSnapshot->loadedProcesses++;
 			destSnapshot = addExtraProcess(destSnapshot,processToAddRunner);
 		}
 		processToAddRunner = processToAddRunner->next;
@@ -45,26 +45,20 @@ struct processinformation* sumProcessesInfo(processinformation* destSnapshot, pr
 	return destSnapshot;
 }
  
- unsigned int dllsCount(processinformation* snapHead) {
-	 processinformation* currentP;
-	 currentP = snapHead;
+ int dllsCount(dllInfo* dllHead) {
 	 dllInfo* currentD;
-	 unsigned int dllCount = 0;
-	 while (currentP != NULL)
-	 {
-		 currentD = currentP->dllInfo;
+	 currentD = dllHead;
+	 int dllCount = 0;
 		 while (currentD != NULL)
 		 {
 			 dllCount++;
 			 currentD = currentD->next;
 		 }
-		 currentP = currentP->next;
-	 }
 	 //printf("Number of DLLs: %d\n", dllCount);
 	 return  dllCount;
  }
  // Utility function
- unsigned int processesCount(processinformation* snapHead) {
+  int processesCount(processinformation* snapHead) {
 	 
 		 processinformation* current;
 		 current = (processinformation*)malloc(sizeof(processinformation));
