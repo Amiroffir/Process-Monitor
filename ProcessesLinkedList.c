@@ -4,9 +4,8 @@
 #include <windows.h>
 #include "ProcessesLinkedList.h"
 #include <psapi.h>
-#include "GetInfo.h"
+#include "GetProcessesInfo.h"
 #pragma warning(disable:4996)
-//snapshotListHead = NULL;
 snapshotsList* snapshotListTail = NULL;
 processinformation* head = NULL;
 processinformation* tail = NULL;
@@ -48,6 +47,9 @@ struct processinformation* addProcess(processinformation* current)
 }
 
 struct processinformation* addExtraProcess(processinformation* destList, processinformation* addToList) {
+	if (addToList->processID == 3452816845) { // A process that has no name(system idle process)
+		return destList;
+	}
 	processinformation* findLast;
 	findLast = destList;
 	while (findLast->next != NULL)
@@ -210,7 +212,7 @@ void resetSnapshotCollection() {
 	snapshotListTail = NULL;
 }
 
-void listInit() {
+void processesListInit() {
 	
 		head = NULL;
 		tail = NULL;

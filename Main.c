@@ -1,29 +1,23 @@
 #include "MyUtilities.h"
-#include "ProcessesLinkedList.h"
-#include "GetInfo.h"
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include "UserMenu.h"
 #include <stdlib.h>
 #include <windows.h>
 #pragma warning(disable:4996)
 
 
 
+
+
 int main() {
-	//LogInit("main.log");
-	//LogEvent("Log file initialized");
-	//LogEvent("Program start running");
+	// need to change to time stamp log
+	LogInit("main.log");
+	LogEvent("Log file initialized\n");
+	LogEvent("Program start running\n");
 	userMenu();
-	//processinformation* oneSnap;
-	//oneSnap = (processinformation*)malloc(sizeof(processinformation));
-	//oneSnap = GetProcessesInfo();
-	//addSnapshot(oneSnap);
-	//listInit();
-	//oneSnap=GetProcessesInfo();
-	//printProcessesList(oneSnap);
-	//addSnapshot(oneSnap);
-	//listInit();
-	//oneSnap = GetProcessesInfo();
-	//addSnapshot(oneSnap);
-	//printSnapshots();
+	
 };
+
+

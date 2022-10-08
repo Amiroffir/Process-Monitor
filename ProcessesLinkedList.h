@@ -5,11 +5,11 @@ struct dllInfo* extraDllsCheck(struct dllInfo* destDll, struct dllInfo* dllToAdd
 struct dllInfo* addExtraDlls(struct dllInfo* destDlls, struct dllInfo* dllToAdd);
 void addSnapshot(struct processinformation* currentSnapshot);
 
-void printProcessesList(struct processinformation* current);
+// Utility function
 void printSnapshots();
 
 void resetSnapshotCollection();
-void listInit();
+void processesListInit();
 void dllListInit();
 
 struct SnapshotsList* snapshotListHead;
