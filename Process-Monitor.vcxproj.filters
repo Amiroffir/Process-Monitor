@@ -33,6 +33,12 @@
     <ClCompile Include="GenerateHTML.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SnapshotsTypes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlDataProcessor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyUtilities.h">
@@ -51,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GenerateHTML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SnapshotsTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlDataProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

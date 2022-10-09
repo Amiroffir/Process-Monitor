@@ -6,19 +6,22 @@
 #include <psapi.h>
 #include "GetProcessesInfo.h"
 #pragma warning(disable:4996)
+
 snapshotsList* snapshotListTail = NULL;
-processinformation* head = NULL;
-processinformation* tail = NULL;
+processinformation* processesHead = NULL; 
+processinformation* processesTail = NULL;
 dllInfo* headDll = NULL;
 dllInfo* tailDll = NULL;
 
+/// <summary>
+/// Adds a process to the linked list
+/// returns the head of the list
+/// </summary>
 struct processinformation* addProcess(processinformation* current)
 {
-  
-    processinformation* currentProcess;
-    currentProcess = (processinformation*)malloc(sizeof(processinformation));
-	//currentProcess->loadedProcesses = current->loadedProcesses;
-    strcpy(currentProcess->processName,current->processName);
+    processinformation* currentProcess; 
+	currentProcess = (processinformation*)malloc(sizeof(processinformation)); // allocate memory for the new process
+    strcpy(currentProcess->processName,current->processName); 
 	currentProcess->processID = current->processID;
 	currentProcess->memoryinfo = current->memoryinfo;
 	currentProcess->dllInfo = current->dllInfo;
@@ -27,26 +30,33 @@ struct processinformation* addProcess(processinformation* current)
     strcpy(currentProcess->snapshotTime, current->snapshotTime);
 	
     
-    if (head == NULL)
+    if (processesHead == NULL) // if the list is empty
     {
-        head = currentProcess;
-        tail = currentProcess;
+        processesHead = currentProcess;
+        processesTail = currentProcess;
         currentProcess->prev = NULL;
 		currentProcess->next = NULL;
    }
     else
    {
-		tail->next = currentProcess;
-		currentProcess->prev = tail;
-		tail = currentProcess;
+		processesTail->next = currentProcess;
+		currentProcess->prev = processesTail;
+		processesTail = currentProcess;
         
     }
-    tail->next = NULL;
+    processesTail->next = NULL;
 
-	return head;
+	return processesHead;
 }
 
+/// <summary>
+	/// Adds an extra process to the end of the linked list
+	/// </summary>
+	/// <param name="destList"></param>
+	/// <param name="addToList"></param>
+	/// <returns>Updated list</returns>
 struct processinformation* addExtraProcess(processinformation* destList, processinformation* addToList) {
+	
 	if (addToList->processID == 3452816845) { // A process that has no name(system idle process)
 		return destList;
 	}
@@ -62,31 +72,41 @@ struct processinformation* addExtraProcess(processinformation* destList, process
 	return destList;
 }
 
+/// <summary>
+	/// Checks if the dll is already in the list and if not adds it to the end of the list 
+	/// </summary>
+	/// <param name="destDll"></param>
+	/// <param name="dllToAdd"></param>
+	/// <returns>Updated dlls list</returns>
 struct dllInfo* extraDllsCheck(dllInfo* destDll, dllInfo* dllToAdd) {
 	int foundIdenticalDll;
-	dllInfo* destDllRunner;
-	dllInfo* dllToAddRunner = dllToAdd;
-	while (dllToAddRunner != NULL) {
+	dllInfo* destDllRunner; 
+	dllInfo* dllToAddRunner = dllToAdd;  
+	while (dllToAddRunner != NULL) { // while there are dlls from the current list to check
 		foundIdenticalDll = 0;
-		destDllRunner = destDll;
-		while (destDllRunner != NULL) {
+		destDllRunner = destDll; // reset the runner to the start of the list
+		while (destDllRunner != NULL) { // while there are dlls in the dest list to check
 
-			if (strcmp(destDllRunner->dllName, dllToAddRunner->dllName) == 0) {
+			if (strcmp(destDllRunner->dllName, dllToAddRunner->dllName) == 0) { 
 				foundIdenticalDll = 1;
 				break;
 			}
 			destDllRunner = destDllRunner->next;
 		}
-		if (foundIdenticalDll == 0) {
-			destDll = addExtraDlls(destDll, dllToAddRunner);
-			//destDll->privateLoadedDlls++;
+		if (foundIdenticalDll == 0) { // if the dll is not in the list add it
+			destDll = addExtraDlls(destDll, dllToAddRunner); 
+			
 		}
 		dllToAddRunner = dllToAddRunner->next;
 	}
-	return destDll;
+	return destDll; // return the updated list
 }
 
+/// <summary>
+/// Adds an extra dll to the end of the linked list
+/// </summary>
 struct dllInfo* addExtraDlls(dllInfo* destDlls, dllInfo* dllToAdd) {
+	
 	dllInfo* findLast;
 	findLast = destDlls;
 	while (findLast->next != NULL)
@@ -99,13 +119,16 @@ struct dllInfo* addExtraDlls(dllInfo* destDlls, dllInfo* dllToAdd) {
 	return destDlls;
 }
 
+/// <summary>
+   /// Adds a dll to the linked list and returns the head of the list
+   /// </summary>
 struct dllInfo* addDllToList(dllInfo* current)
 {
     dllInfo* currentDll;
     currentDll = (dllInfo*)malloc(sizeof(dllInfo));
     strcpy(currentDll->dllName, current->dllName);
 
-    if (headDll == NULL)
+    if (headDll == NULL) // if the list is empty
     {
         headDll = currentDll;
         tailDll = currentDll;
@@ -121,15 +144,17 @@ struct dllInfo* addDllToList(dllInfo* current)
     }
     tailDll->next = NULL;
 
-        return headDll;
+	return headDll; // return the head of the list
 }
-
+/// <summary>
+	   /// Adds a snapshot to the linked list
+	   /// </summary>
+	   /// <param name="currentSnapshot"></param>
 void addSnapshot(struct processinformation* currentSnapshot) {
-    {
         snapshotsList* currentSnap;
         currentSnap = (snapshotsList*)malloc(sizeof(snapshotsList));
-        currentSnap->snapshotData = currentSnapshot;
-        if (snapshotListHead == NULL)
+        currentSnap->snapshotData = currentSnapshot; 
+        if (snapshotListHead == NULL) // if the list is empty
         {
             snapshotListHead = currentSnap;
             snapshotListTail = currentSnap;
@@ -143,7 +168,6 @@ void addSnapshot(struct processinformation* currentSnapshot) {
             snapshotListTail = currentSnap;
         }
         snapshotListTail->nextSnap = NULL;	
-    }
 }
 
 
@@ -154,7 +178,7 @@ void printSnapshots() {
 	dllInfo* currD;
 	curr = snapshotListHead;
 	while (curr != NULL) {
-		printf("Snapshot head: %s", curr->snapshotData->processName);
+		printf("Snapshot processesHead: %s", curr->snapshotData->processName);
 		printf("Snapshot time: %s\n", curr->snapshotData->snapshotTime);
 		printf("Snapshot counter: %d\n", curr->snapshotData->snapshotCounter);
         current = curr->snapshotData;
@@ -181,43 +205,53 @@ void printSnapshots() {
 	}
     printf("NULL");
 }
-//Utility function
-/*void printProcessesList(processinformation* current)
-{
-		processinformation* curr;
-		curr = current;
-		while (curr != NULL) {
-			printf("Process name: %s\n", curr->processName);
-			printf("Process ID: %d\n", curr->processID);
-			printf("Process memory: %d\n", curr->memoryinfo.PageFaultCount);
-			printf("Process memory: %d\n", curr->memoryinfo.WorkingSetSize);
-			printf("Process memory: %d\n", curr->memoryinfo.QuotaPagedPoolUsage);
-			printf("Process memory: %d\n", curr->memoryinfo.PagefileUsage);
-			printf("Process memory: %d\n", curr->memoryinfo.QuotaPeakPagedPoolUsage);
-			
-			curr = curr->next;
-		}
-	}
-	*/
+
+/// <summary>
+	/// Resets the snapshot collection
+	/// </summary>
 void resetSnapshotCollection() {
-	snapshotsList* curr;
-	snapshotsList* release;
-	curr = snapshotListHead;
-	while (curr != NULL) {
-		release = curr;
-		curr = curr->nextSnap;
-		free(release);
-	}
-	snapshotListHead = NULL;
-	snapshotListTail = NULL;
-}
-
-void processesListInit() {
+	snapshotsList* currSnap;
+	snapshotsList* releaseSnap;
+	processinformation* currentP;
+	processinformation* releaseProcess;
+	dllInfo* currD;
+	dllInfo* releaseDll;
 	
-		head = NULL;
-		tail = NULL;
+	currSnap = snapshotListHead;
+	while (currSnap != NULL) {
+		currentP = currSnap->snapshotData;
+		while (currentP != NULL) {
+			currD = currentP->dllInfo;
+			while (currD != NULL) {
+				releaseDll = currD;
+				currD = currD->next;
+				free(releaseDll);
+			}
+			releaseProcess = currentP;
+			currentP = currentP->next;
+			free(releaseProcess);
+		}
+		releaseSnap = currSnap;
+		currSnap = currSnap->nextSnap;
+		free(releaseSnap);
+	}
+	snapshotListHead = NULL; // reset the head of the list
+	snapshotListTail = NULL; // reset the tail of the list
 }
 
+/// <summary>
+		/// Initializes the processes list
+		/// </summary>
+void processesListInit() {
+		
+	
+		processesHead = NULL;
+		processesTail = NULL;
+}
+
+/// <summary>
+		/// Initializes the dlls list
+		/// </summary>
 void dllListInit() {
 	headDll = NULL;
 	tailDll = NULL;

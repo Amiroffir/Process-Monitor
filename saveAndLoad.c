@@ -66,7 +66,7 @@ void saveToFile() {
 	fp = fopen(saveDate, "wb"); // Open the file to write
 	if (fp == NULL) {
 		printf("Error opening file");
-		LogError(GetLastError());
+		LogError(strerror(GetLastError()));
 		return;
 	}
 	LogEvent("File opened successfully");
@@ -108,30 +108,34 @@ void saveToFile() {
 	/// </summary>
 void loadFromFile() {
 	
+	// Get the user desired file name
 	char saveDate[100];
 	//printf("Enter the date of the Snapshots List you want to load (dd.mm.yyyy): ");
 	//scanf("%s", saveDate);
 	//strcat(fileNameTemplate, saveDate);
 	//strcat(fileNameTemplate, ".bin");
-	strcpy(fileNameTemplate , "snapshotsData_8.10.2022.bin");
+	strcpy(fileNameTemplate , "snapshotsData_1.10.2022.bin");
+	
+	// Open the file to read
 	FILE* fp;
 	fp = fopen(fileNameTemplate, "rb");
 	if (fp == NULL) {
 		printf("Error opening file");
-		// write to log
+		LogError(strerror(GetLastError()));
 		return;
 	}
+	LogEvent("File opened successfully");
 	
-	if (fread(&header, sizeof(snapList_Header), 1, fp) != 0) {
-		snapshotListHead = NULL;
+	if (fread(&header, sizeof(snapList_Header), 1, fp) != 0) { // Read the header from the file
+		snapshotListHead = NULL; // Initialize the snapshots list head
 		
-		for (int snapshotNumber = 0; snapshotNumber < header.snapshotsCount; snapshotNumber++)
-		{
-			processinformation* newSnap = NULL;
+		for (int snapshotNumber = 0; snapshotNumber < header.snapshotsCount; snapshotNumber++)  // for each snapshot in the file
+		{  
+			processinformation* newSnap = NULL; // Initialize the processes list head
 			
-			if (fread(&process_header, sizeof(processesList_Header), 1, fp) != 0) {
+			if (fread(&process_header, sizeof(processesList_Header), 1, fp) != 0) { // Read the processes list header from the file
 				
-				for (int i = 0; i < process_header.loadedProcesses; i++) {
+				for (int i = 0; i < process_header.loadedProcesses; i++) { // for each process in the snapshot
 					processinformation* currSnap = (processinformation*)malloc(sizeof(processinformation));
 					fread(&currSnap->snapshotCounter, sizeof(unsigned int), 1, fp);
 					fread(&currSnap->snapshotTime, sizeof(char) * 100, 1, fp);
@@ -141,19 +145,19 @@ void loadFromFile() {
 					fread(&currSnap->totalLoadedDlls, sizeof(unsigned int), 1, fp);
 					
 					dllInfo* currDll = (dllInfo*)malloc(sizeof(dllInfo));
-					if (fread(&dlls_header, sizeof(dllsList_Header), 1, fp) != 0) {
+					if (fread(&dlls_header, sizeof(dllsList_Header), 1, fp) != 0) { // Read the dlls list header from the file
 
-						for (int j = 0; j < dlls_header.privateLoadedDlls; j++) {
+						for (int j = 0; j < dlls_header.privateLoadedDlls; j++) { // for each dll in the process
 							fread(&currDll->dllName, sizeof(currDll->dllName), 1, fp);
-							currSnap->dllInfo = addDllToList(currDll);
+							currSnap->dllInfo = addDllToList(currDll); // Add the dll to the dlls list
 						}
-						dllListInit();
+						dllListInit(); // Initialize the dlls list head
 					}
-					newSnap = addProcess(currSnap);
+					newSnap = addProcess(currSnap); // Add the process to the processes list
 				}
 			}
-				addSnapshot(newSnap);
-				processesListInit();
+			addSnapshot(newSnap); // Add the snapshot to the snapshots list
+			processesListInit(); // Initialize the processes list head
 		}
 			
 	}

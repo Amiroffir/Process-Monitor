@@ -12,7 +12,7 @@ void resetSnapshotCollection();
 void processesListInit();
 void dllListInit();
 
-struct SnapshotsList* snapshotListHead;
+struct SnapshotsList* snapshotListHead; // global head of the snapshots list
 struct processinformation* tempSnapHead;
 struct processinformation* oneSnapHead;
 struct processinformation* twentySnapHead;

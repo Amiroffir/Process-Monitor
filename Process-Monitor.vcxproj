@@ -132,10 +132,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GenerateHTML.c" />
+    <ClCompile Include="HtmlDataProcessor.c" />
     <ClCompile Include="ProcessesLinkedList.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="GetProcessesInfo.c" />
     <ClCompile Include="saveAndLoad.c" />
+    <ClCompile Include="SnapshotsTypes.c" />
     <ClCompile Include="UserMenu.c" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +146,8 @@
     <ClInclude Include="MyUtilities.h" />
     <ClInclude Include="ProcessesLinkedList.h" />
     <ClInclude Include="saveAndLoad.h" />
+    <ClInclude Include="SnapshotsTypes.h" />
+    <ClInclude Include="HtmlDataProcessor.h" />
     <ClInclude Include="UserMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

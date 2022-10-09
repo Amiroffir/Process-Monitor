@@ -1,0 +1,1 @@
+int totalSnapshotDlls(struct processinformation* snapHead);

@@ -1,4 +1,4 @@
-typedef struct snapshotList_Header {
+typedef struct snapshotList_Header { 
 	int version;
 	int snapshotsCount;
 	char reserve[100];
@@ -19,5 +19,5 @@ typedef struct snapshotList_Header {
 
  void saveToFile();
  void loadFromFile();
- int dllsCount(struct processinformation* snapHead);
+ int dllsCount(struct dllInfo* dllHead);
  int processesCount(struct processinformation* snapHead);

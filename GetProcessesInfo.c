@@ -1,3 +1,4 @@
+#include "MyUtilities.h"
 #include <stdio.h>
 #include <stdlib.h> 
 #include <string.h>
@@ -7,20 +8,22 @@
 #include "GetProcessesInfo.h"
 #include <time.h>
 #pragma warning(disable:4996)
-int dllCounter;
-//int processCounter;
+
+int dllCounter; 
 processinformation* currProcess;
 char strTime[100];
 
 	
-
+/// <summary>
+/// Gets the memory information of a process and returns it
+/// </summary>
  struct processinformation* GetMemoryInfo(DWORD processID)
 {
 	 processinformation* currentP;
 	 currentP = (processinformation*)malloc(sizeof(processinformation));
 	 memoryinfo currentM;
 	 dllInfo* currentD;
-	HANDLE hProcess;
+	 HANDLE hProcess;
 	
 	PROCESS_MEMORY_COUNTERS pmc;
 	hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
@@ -38,9 +41,10 @@ char strTime[100];
 	{
 		// At this point, buffer contains the full path to the executable
 		
+		// convert the process name to char
 		char processName[MAX_PATH];
 		size_t numConverted1;
-		wcstombs_s(&numConverted1, processName, MAX_PATH, Buffer, MAX_PATH);
+		wcstombs_s(&numConverted1, processName, MAX_PATH, Buffer, MAX_PATH); 
 		
 		strcpy(currentP->processName, processName);
 		currentP->processID = processID;
@@ -49,7 +53,7 @@ char strTime[100];
 	}
 	else
 	{
-		// You better call GetLastError() here
+		LogError(strerror(GetLastError()));
 	}
 
 
@@ -67,7 +71,7 @@ char strTime[100];
 
 	if (EnumProcessModules(hProcess, hMods, sizeof(hMods), &cbNeeded))
 	{
-		dllListInit();
+		dllListInit(); // initialize the dll list
 		
 		for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++)
 		{
@@ -78,19 +82,21 @@ char strTime[100];
 
 			if (GetModuleFileNameEx(hProcess, hMods[i], Buffer2, MAX_PATH))
 			{
-				dllCounter++;
+				dllCounter++; 
 				currentD = (dllInfo*)malloc(sizeof(dllInfo));
+				
+				// convert the dll name to char
 				char dllName[MAX_PATH];
 				size_t numConverted;
-				wcstombs_s(&numConverted, dllName, MAX_PATH, Buffer2, MAX_PATH);
-				// Copy the dll name and handle value.
+				wcstombs_s(&numConverted, dllName, MAX_PATH, Buffer2, MAX_PATH); 
+				
 				strcpy(currentD->dllName, dllName);
-				currentP->dllInfo = addDllToList(currentD);
+				currentP->dllInfo = addDllToList(currentD); // add the dll to the dll list
 			}
 		}
-		//currentP->dllInfo->privateLoadedDlls = dllCounter;
-		currentP->totalLoadedDlls = dllCounter;
-		dllCounter = 0;
+			
+		currentP->totalLoadedDlls = dllCounter; // add the number of dlls to the current process
+		dllCounter = 0; // reset the dll counter
 	}
 
 	// Get the snapshot time by format hh:mm:ss and add it to the current process
@@ -102,39 +108,35 @@ char strTime[100];
 	strcpy(currentP->snapshotTime, strTime);
 	
 		CloseHandle(hProcess);
-		return currentP;
+		return currentP; // return the current process
 	};
 	
+ /// <summary>
+	/// Gets the processes information and returns the processes list head
+	/// </summary>
  struct processinformation* GetProcessesInfo()
 {
-	 processinformation* HeadOfProcessList = NULL;
+	 processinformation* HeadOfProcessList = NULL; 
 	// Get Processes
 	// Receive all process ID
 	DWORD aProcesses[1024], cbNeeded, cProcesses;
-	unsigned int i;
 
 	if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))
 	{
-		// Error. Write to log
+		LogError(strerror(GetLastError()));
 		return 1;
 	}
 
 	// Calculate how many process identifiers were returned.
 
 	cProcesses = cbNeeded / sizeof(DWORD);
-
-	// Print the memory usage for each process
-
-	for (i = 0; i < cProcesses; i++)
-	{
+	
+	for (int i = 0; i < cProcesses; i++)  // for each process
+	{ 
 		currProcess = GetMemoryInfo(aProcesses[i]);
-		if (currProcess != NULL) {
-			//processCounter++;
-			HeadOfProcessList = addProcess(currProcess);
+		if (currProcess != NULL) { // if the process is not null
+			HeadOfProcessList = addProcess(currProcess); // add the process to the processes list
 		}
 	}
-	// For each Process to get its Memory Information
-	//HeadOfProcessList->loadedProcesses = processCounter;
-	//processCounter = 0;
-	return HeadOfProcessList;
+	return HeadOfProcessList; // return the processes list head
 }
