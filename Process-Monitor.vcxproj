@@ -131,7 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GenerateHomePage.c" />
     <ClCompile Include="GenerateHTML.c" />
+    <ClCompile Include="GenerateSamplePage.c" />
     <ClCompile Include="HtmlDataProcessor.c" />
     <ClCompile Include="ProcessesLinkedList.c" />
     <ClCompile Include="Main.c" />
@@ -141,7 +143,9 @@
     <ClCompile Include="UserMenu.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GenerateHomePage.h" />
     <ClInclude Include="GenerateHTML.h" />
+    <ClInclude Include="GenerateSamplePage.h" />
     <ClInclude Include="GetProcessesInfo.h" />
     <ClInclude Include="MyUtilities.h" />
     <ClInclude Include="ProcessesLinkedList.h" />

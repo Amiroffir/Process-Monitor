@@ -39,6 +39,12 @@
     <ClCompile Include="HtmlDataProcessor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GenerateHomePage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenerateSamplePage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyUtilities.h">
@@ -63,6 +69,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HtmlDataProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenerateHomePage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenerateSamplePage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
