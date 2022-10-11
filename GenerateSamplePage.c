@@ -15,9 +15,9 @@
 char sampleNum[50];
 
 
-int SaveTempFile(char* fileName, char* buff)
+int saveTempFile(char* fileName, char* buff,char fileAction[5])
 {
-	FILE* fi = fopen(fileName, "a");
+	FILE* fi = fopen(fileName, fileAction);
 	if (!fi)
 	{
 		return 0;
@@ -41,6 +41,7 @@ void dynamicChosenSample(snapshotsList* currS) {
 }
 
 void dynamicProcessesDetails(processinformation* currProcList) {
+	int count = 1;
 	while (currProcList != NULL) {
 		strcpy(buffer, "");
 		strcat(buffer, "<tr>\n");
@@ -75,16 +76,30 @@ void dynamicProcessesDetails(processinformation* currProcList) {
 		sprintf(converter, "%d", currProcList->totalLoadedDlls);
 		strcat(buffer, converter);
 		strcat(buffer, "</td>\n");
-		strcat(buffer, "<td class=\"border\">");
+		strcat(buffer, "<td class=\"border ProcTableHead\">\n");
+		
+		strcat(buffer, "<div class=\"dropdown-left\">\n");
+		strcat(buffer, "<button type=\"button\" class=\"btn btn-secondary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"> DLL's List </button>");
+		strcat(buffer, "<div class=\"dropdown dropdown-dlls\">");
 		dllInfo* runner = currProcList->dllInfo;
 		while (runner != NULL) {
+			strcat(buffer, "<a class=\"dropdown-item border-bottom\">");
 			strcat(buffer, runner->dllName);
-			strcat(buffer, "\n");
+			strcat(buffer, "</a>");
 			runner = runner->next;
 		}
+		
+		strcat(buffer, "</div>\n");
+		strcat(buffer, "</div>\n");
 		strcat(buffer, "</td>\n");
 		strcat(buffer, "</tr>\n");
-		SaveTempFile("dynamicProcessesDetails.html", buffer);
+		if (count == 1) {
+			saveTempFile("dynamicProcessesDetails.html", buffer,"w");
+		}
+		else {
+				saveTempFile("dynamicProcessesDetails.html", buffer, "a");
+		}
+		count++;
 		currProcList = currProcList->next;
 	}
 	
@@ -95,9 +110,8 @@ void generateSample(snapshotsList* currS) {
 	strcpy(updatedFileName, sampleNameTemplate);
 	sprintf(sampleNum, "%d%s", currS->snapshotData->snapshotCounter,".html");
 	strcat(updatedFileName, sampleNum);
-	
 	dynamicChosenSample(currS);
 	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\StaticSamplePage.html", "dynamicChosenSample", updatedFileName);
 	dynamicProcessesDetails(currS->snapshotData);
-	insertDataFromFile(updatedFileName, "dynamicProcessesDetails", updatedFileName);
+	insertDataFromFile(updatedFileName,"dynamicProcessesDetails.html","dynamicProcessesDetails", updatedFileName);
 }

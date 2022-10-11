@@ -57,7 +57,7 @@ th {
 .border-bottom {
   color: gray;
 }
-.PtableHead {
+.ProcTableHead {
   font-size: 16px;
   text-align: center;
 }
@@ -75,4 +75,29 @@ th {
   text-align: left;
   word-wrap: break-word;
   width: 140px;
+}
+.dropdown-left {
+  position: relative;
+}
+
+.dropdown-left:hover .dropdown-dlls {
+  display: list-item;
+  position: absolute;
+  top: 0;
+  left: -370px;
+  z-index: 1;
+  overflow-y: scroll;
+}
+.dropdown-dlls {
+  width: 400px;
+  word-wrap: break-word;
+  max-height: 300px;
+  display: none;
+  background-color: gray;
+  color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  border: 1px;
+  padding-left: 12px;
+  padding-right: 12px;
 }

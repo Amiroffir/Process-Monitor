@@ -94,10 +94,10 @@ void insertDynamicData(char* fileSrcPath, char Seperator[100], char* fileDestPat
 	free(homePageTemplate);
 }
 
-void insertDataFromFile(char* fileSrcPath, char Seperator[100], char* fileDestPath) {
+void insertDataFromFile(char* fileSrcPath, char* fileToInsert, char Seperator[100], char* fileDestPath) {
 
 	char* homePageTemplate = ReadAllFile(fileSrcPath);
-	char* tempFileToAdd = ReadAllFile("dynamicProcessesDetails.html");
+	char* tempFileToAdd = ReadAllFile(fileToInsert);
 
 	// find the token
 	char* found = strstr(homePageTemplate, Seperator);

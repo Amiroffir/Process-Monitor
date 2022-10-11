@@ -14,6 +14,7 @@
 
 void overallSamplesDynamicTable() {
 	// overall samples dynamic table
+	snapshotsList* currentS = snapshotListHead;
 	strcpy(buffer, "");
 	strcat(buffer, "<td>");
 	sprintf(converter, "%d", 5);
@@ -24,7 +25,7 @@ void overallSamplesDynamicTable() {
 	strcat(buffer, converter);
 	strcat(buffer, "</td>");
 	strcat(buffer, "<td>");
-	sprintf(converter, "%d", 5);
+	sprintf(converter, "%d", memoryUsageAvg(currentS));
 	strcat(buffer, converter);
 	strcat(buffer, "</td>");
 }
@@ -34,6 +35,7 @@ void snapshotsDynamicTable() {
 	snapshotsList* currentS = snapshotListHead;
 	int processCnt = 0;
 	int dllCnt = 0;
+	unsigned long totalMemoryUsage = 0;
 	char copyToBuffer[10000] = {0};
 	for (int i = 1; i <= snapshotCounter; i++) {
 		strcpy(buffer, ""); // clear buffer
@@ -41,6 +43,7 @@ void snapshotsDynamicTable() {
 		generateSample(currentS);
 		processCnt = processesCount(currentS->snapshotData);
 		dllCnt = totalSnapshotDlls(currentS->snapshotData);
+		totalMemoryUsage = totalMemoryUsageCount(currentS->snapshotData);
 		strcpy(buffer, ""); // clear buffer
 		strcat(copyToBuffer, "<tr>\n");
 		strcat(copyToBuffer, "<th>\n");
@@ -60,7 +63,7 @@ void snapshotsDynamicTable() {
 		strcat(copyToBuffer, converter);
 		strcat(copyToBuffer, "</td>\n");
 		strcat(copyToBuffer, "<td>");
-		sprintf(converter, "%d", dllCnt);
+		sprintf(converter, "%d", totalMemoryUsage / processCnt);
 		strcat(copyToBuffer, converter);
 		strcat(copyToBuffer, "</td>\n");
 		strcat(copyToBuffer, "</tr>\n");
