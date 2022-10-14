@@ -1,8 +1,8 @@
 #include <windows.h>
 typedef struct DllInfo {
 	char dllName[MAX_PATH];
-	struct dllInfo* next;
-	struct dllInfo* prev;
+	struct DllInfo* next;
+	struct DllInfo* prev;
 }dllInfo;
 typedef struct MemoryInfo {
 	unsigned long long PageFaultCount;
@@ -19,13 +19,14 @@ typedef struct ProcessInfo {
 	unsigned int totalLoadedDlls;
 	char snapshotTime[100];
 	unsigned int snapshotCounter;
-	struct processinformation* next;
-	struct  processinformation* prev;
+	struct ProcessInfo* next;
+	struct  ProcessInfo* prev;
 }processinformation;
+
 typedef struct SnapshotList {
 	processinformation* snapshotData;
-	struct snapshotsList* nextSnap;
-	struct snapshotsList* prevSnap;
+	struct SnapshotList* nextSnap;
+	struct SnapshotList* prevSnap;
 }snapshotsList;
 
 struct processinformation* GetMemoryInfo(DWORD processID);

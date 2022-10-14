@@ -6,6 +6,7 @@
 #include <psapi.h>
 #include "ProcessesLinkedList.h"
 #include "GetProcessesInfo.h"
+#include "Dictionary.h"
 #include <time.h>
 #pragma warning(disable:4996)
 
@@ -91,6 +92,9 @@ char strTime[100];
 				wcstombs_s(&numConverted, dllName, MAX_PATH, Buffer2, MAX_PATH); 
 				
 				strcpy(currentD->dllName, dllName);
+				if (searchDll(currentD->dllName, currentP) == NULL) {
+					addDllToDict(currentD->dllName, currentP);
+				}
 				currentP->dllInfo = addDllToList(currentD); // add the dll to the dll list
 			}
 		}
@@ -135,6 +139,9 @@ char strTime[100];
 	{ 
 		currProcess = GetMemoryInfo(aProcesses[i]);
 		if (currProcess != NULL) { // if the process is not null
+			if (searchProcess(currProcess->processName,currProcess->processID) == NULL) {
+				addProcToDict(currProcess->processName, currProcess->processID);
+			}
 			HeadOfProcessList = addProcess(currProcess); // add the process to the processes list
 		}
 	}

@@ -114,7 +114,7 @@ void loadFromFile() {
 	//scanf("%s", saveDate);
 	//strcat(fileNameTemplate, saveDate);
 	//strcat(fileNameTemplate, ".bin");
-	strcpy(fileNameTemplate , "snapshotsData_1.10.2022.bin");
+	strcpy(fileNameTemplate , "snapshotsData_14.10.2022.bin");
 	
 	// Open the file to read
 	FILE* fp;

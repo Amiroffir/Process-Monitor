@@ -3,6 +3,12 @@
 #include <string.h>
 #include <time.h>
 #include "UserMenu.h"
+#include "SnapshotsTypes.h"
+#include "GetProcessesInfo.h"
+#include "HtmlDataProcessor.h"
+#include "saveAndLoad.h"
+#include "UserMenu.h"
+#include "ProcessesLinkedList.h"
 #include <stdlib.h>
 #include <windows.h>
 #pragma warning(disable:4996)

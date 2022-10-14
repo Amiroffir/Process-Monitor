@@ -5,23 +5,24 @@
 #include "HtmlDataProcessor.h"
 #include "GenerateHTML.h"
 #include "GenerateSamplePage.h"
+#include "GenerateDllPage.h"
+#include "Dictionary.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <windows.h>
 #pragma warning(disable:4996)
 
-
 void overallSamplesDynamicTable() {
 	// overall samples dynamic table
 	snapshotsList* currentS = snapshotListHead;
 	strcpy(buffer, "");
 	strcat(buffer, "<td>");
-	sprintf(converter, "%d", 5);
+	sprintf(converter, "%d", PCounter);
 	strcat(buffer, converter);
 	strcat(buffer, "</td>");
 	strcat(buffer, "<td>");
-	sprintf(converter, "%d", 5);
+	sprintf(converter, "%d", DCounter);
 	strcat(buffer, converter);
 	strcat(buffer, "</td>");
 	strcat(buffer, "<td>");
@@ -39,11 +40,11 @@ void snapshotsDynamicTable() {
 	char copyToBuffer[10000] = {0};
 	for (int i = 1; i <= snapshotCounter; i++) {
 		strcpy(buffer, ""); // clear buffer
-		strcpy(updatedFileName, "");
-		generateSample(currentS);
+		strcpy(updatedFileName, ""); // clear updatedFileName
 		processCnt = processesCount(currentS->snapshotData);
 		dllCnt = totalSnapshotDlls(currentS->snapshotData);
 		totalMemoryUsage = totalMemoryUsageCount(currentS->snapshotData);
+		generateSample(currentS);
 		strcpy(buffer, ""); // clear buffer
 		strcat(copyToBuffer, "<tr>\n");
 		strcat(copyToBuffer, "<th>\n");
@@ -73,26 +74,42 @@ void snapshotsDynamicTable() {
 }
 
 void dllsDynamicTable() {
-	strcpy(buffer, ""); // clear buffer
-
-	strcat(buffer, "<tr>\n");
-	strcat(buffer, "<td>\n");
-	strcat(buffer, "<a class=\"text-light bg-dark\" href = \"#.css\">");
-	sprintf(converter, "%d", 5);
-	strcat(buffer, converter);
-	strcat(buffer, "</a>\n");
-	strcat(buffer, "</td>\n");
-	strcat(buffer, "</tr>\n");
-
+	int count = 1;
+	
+	dllDict* currentDll = dllDictHead;
+	for (int i = 1; i <= DCounter; i++) {
+		generateDllPage(currentDll);
+		strcpy(buffer, ""); // clear buffer
+		strcat(buffer, "<tr>\n");
+		strcat(buffer, "<td>");
+		strcat(buffer, "<a class=\"text-light bg-dark\" href=\"");
+		strcat(buffer, updatedFileName);
+		strcat(buffer, "\">");
+		strcat(buffer, currentDll->dllName);
+		strcat(buffer, "</a>\n");
+		strcat(buffer, "</td>\n");
+		strcat(buffer, "</tr>\n");
+		
+	if (count == 1) {
+		saveTempFile("dynamicDllTable.html", buffer, "w");
+	}
+	else {
+		saveTempFile("dynamicDllTable.html", buffer, "a");
+	}
+	count++;
+	currentDll = currentDll->next;
+	}
+	strcpy(updatedFileName, "");
 }
 
 void generateHomePage() {
-
+	snapshotsList* a = snapshotListHead;
+	int check = processesCount(a->snapshotData);
 	overallSamplesDynamicTable();
 	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\StaticHomePage.html", "dynamic", "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html");
 	snapshotsDynamicTable();
 	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html", "dynamicTable", "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html");
 	dllsDynamicTable();
-	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html", "dynamicDllTable", "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html");
+	insertDataFromFile("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html","dynamicDllTable.html", "dynamicDllTable", "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html");
 
 }

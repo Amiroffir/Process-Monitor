@@ -45,6 +45,12 @@
     <ClCompile Include="GenerateSamplePage.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dictionary.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenerateDllPage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyUtilities.h">
@@ -75,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GenerateSamplePage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dictionary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenerateDllPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

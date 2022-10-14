@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dictionary.c" />
+    <ClCompile Include="GenerateDllPage.c" />
     <ClCompile Include="GenerateHomePage.c" />
     <ClCompile Include="GenerateHTML.c" />
     <ClCompile Include="GenerateSamplePage.c" />
@@ -143,6 +145,8 @@
     <ClCompile Include="UserMenu.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="GenerateDllPage.h" />
     <ClInclude Include="GenerateHomePage.h" />
     <ClInclude Include="GenerateHTML.h" />
     <ClInclude Include="GenerateSamplePage.h" />

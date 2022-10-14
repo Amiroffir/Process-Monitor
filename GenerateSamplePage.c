@@ -13,6 +13,7 @@
 
 #define sampleNameTemplate "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\Sample"
 char sampleNum[50];
+processinformation* sortedList;
 
 
 int saveTempFile(char* fileName, char* buff,char fileAction[5])
@@ -41,6 +42,7 @@ void dynamicChosenSample(snapshotsList* currS) {
 }
 
 void dynamicProcessesDetails(processinformation* currProcList) {
+	int addIcon = highestMemoryUsage(currProcList);
 	int count = 1;
 	while (currProcList != NULL) {
 		strcpy(buffer, "");
@@ -53,8 +55,12 @@ void dynamicProcessesDetails(processinformation* currProcList) {
 		strcat(buffer, converter);
 		strcat(buffer, "</td>\n");
 		strcat(buffer, "<td class=\"border\">");
+		
 		sprintf(converter, "%d", currProcList->memoryinfo.WorkingSetSize);
 		strcat(buffer, converter);
+		if (atoi(converter) == addIcon) {
+			strcat(buffer, "\t<img src=\"C:/Users/Amir Offir/.vscode/Process-Monitor/Images/icons8-error-48.png\" width=\"22\" height=\"22\" class=\"d-inline-block align-bottom\" alt=\"\"/>");
+		}
 		strcat(buffer, "</td>\n");
 		strcat(buffer, "<td class=\"border\">");
 		sprintf(converter, "%d", currProcList->memoryinfo.QuotaPagedPoolUsage);
@@ -107,11 +113,13 @@ void dynamicProcessesDetails(processinformation* currProcList) {
 
 
 void generateSample(snapshotsList* currS) {
+	
 	strcpy(updatedFileName, sampleNameTemplate);
 	sprintf(sampleNum, "%d%s", currS->snapshotData->snapshotCounter,".html");
 	strcat(updatedFileName, sampleNum);
+	sortedList = SortByLoadedDlls(currS);
 	dynamicChosenSample(currS);
 	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\StaticSamplePage.html", "dynamicChosenSample", updatedFileName);
-	dynamicProcessesDetails(currS->snapshotData);
+	dynamicProcessesDetails(sortedList /*currS->snapshotData*/);
 	insertDataFromFile(updatedFileName,"dynamicProcessesDetails.html","dynamicProcessesDetails", updatedFileName);
 }

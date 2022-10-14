@@ -19,6 +19,9 @@ dllInfo* tailDll = NULL;
 /// </summary>
 struct processinformation* addProcess(processinformation* current)
 {
+	if (current->processID == 3452816845) { // A process that has no name(system idle process)
+		return processesHead;
+	}
     processinformation* currentProcess; 
 	currentProcess = (processinformation*)malloc(sizeof(processinformation)); // allocate memory for the new process
     strcpy(currentProcess->processName,current->processName); 
@@ -132,7 +135,7 @@ struct dllInfo* addDllToList(dllInfo* current)
     {
         headDll = currentDll;
         tailDll = currentDll;
-        currentDll->prev = NULL;
+        currentDll->prev= NULL;
 		currentDll->next = NULL;
     }
     else
