@@ -12,7 +12,9 @@
 #include <stdlib.h>
 #include <windows.h>
 #pragma warning(disable:4996)
-
+#define updatedHomePage "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Home-Page\\HomePage.html"
+#define dllTableData "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Dynamic-Data-Pages\\dynamicDllTable.html"
+#define staticHomePage "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Static-Src-Pages\\StaticHomePage.html"
 void overallSamplesDynamicTable() {
 	// overall samples dynamic table
 	snapshotsList* currentS = snapshotListHead;
@@ -91,25 +93,24 @@ void dllsDynamicTable() {
 		strcat(buffer, "</tr>\n");
 		
 	if (count == 1) {
-		saveTempFile("dynamicDllTable.html", buffer, "w");
+		saveTempFile(dllTableData, buffer, "w");
+		count++;
 	}
 	else {
-		saveTempFile("dynamicDllTable.html", buffer, "a");
+		saveTempFile(dllTableData, buffer, "a");
 	}
-	count++;
+	
 	currentDll = currentDll->next;
+	
 	}
 	strcpy(updatedFileName, "");
 }
 
 void generateHomePage() {
-	snapshotsList* a = snapshotListHead;
-	int check = processesCount(a->snapshotData);
 	overallSamplesDynamicTable();
-	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\StaticHomePage.html", "dynamic", "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html");
+	insertDynamicData(staticHomePage, "dynamic", updatedHomePage);
 	snapshotsDynamicTable();
-	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html", "dynamicTable", "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html");
+	insertDynamicData(updatedHomePage, "dynamicTable", updatedHomePage);
 	dllsDynamicTable();
-	insertDataFromFile("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html","dynamicDllTable.html", "dynamicDllTable", "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\HomePage.html");
-
+	insertDataFromFile(updatedHomePage, dllTableData, "dynamicDllTable", updatedHomePage);
 }

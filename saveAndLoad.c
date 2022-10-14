@@ -2,13 +2,14 @@
 #include "ProcessesLinkedList.h"
 #include "GetProcessesInfo.h"
 #include <time.h>
+#include "Dictionary.h"
 #include "saveAndLoad.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #pragma warning(disable:4996)
 
-char fileNameTemplate[100] = "snapshotsData_";
+char fileNameTemplate[120] = "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Saved-Monitoring-Files\\snapshotsData_";
 
 /// <summary>
 	/// Counts the number of dlls in a given process
@@ -52,7 +53,7 @@ int processesCount(processinformation* snapHead) {
 void saveToFile() {
 	
 	// Get the current date and add to the file name template
-	char saveDate[100]; 
+	char saveDate[120]; 
 	time_t date = time(NULL); 
 	struct tm tm = *localtime(&date); 
 	sprintf(saveDate, "%s%d.%d.%d", fileNameTemplate, tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
@@ -101,6 +102,10 @@ void saveToFile() {
 		}
 		currentS = currentS->nextSnap;
 	}
+	// saving the dictionary lists to a bin file
+	
+	
+	
 }
 
 /// <summary>
@@ -109,7 +114,7 @@ void saveToFile() {
 void loadFromFile() {
 	
 	// Get the user desired file name
-	char saveDate[100];
+	char saveDate[120];
 	//printf("Enter the date of the Snapshots List you want to load (dd.mm.yyyy): ");
 	//scanf("%s", saveDate);
 	//strcat(fileNameTemplate, saveDate);
@@ -149,10 +154,16 @@ void loadFromFile() {
 
 						for (int j = 0; j < dlls_header.privateLoadedDlls; j++) { // for each dll in the process
 							fread(&currDll->dllName, sizeof(currDll->dllName), 1, fp);
+							if (searchDll(currDll->dllName, currSnap) == NULL) {//
+								addDllToDict(currDll->dllName, currSnap);//
+							}
 							currSnap->dllInfo = addDllToList(currDll); // Add the dll to the dlls list
 						}
 						dllListInit(); // Initialize the dlls list head
 					}
+					if (searchProcess(currSnap->processName, currSnap->processID) == NULL) {//
+						addProcToDict(currSnap->processName, currSnap->processID);//
+					}//
 					newSnap = addProcess(currSnap); // Add the process to the processes list
 				}
 			}

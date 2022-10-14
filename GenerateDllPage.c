@@ -12,7 +12,9 @@
 #include <windows.h>
 #pragma warning(disable:4996)
 
-#define dllPageNameTemplate "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\DLL-Pages\\dll"
+#define dllPageNameTemplate "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\DLL-Pages\\dll"
+#define staticDllPage "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Static-Src-Pages\\StaticDllPage.html"
+#define usedByProcData "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Dynamic-Data-Pages\\dynamicProcThatUsedDetails.html"
 char sampleNum[50];
 int counterInit = 1;
 int dllPageCounter = 1;
@@ -35,14 +37,15 @@ void dynamicChosenDll(dllInfo* currD) {
 
 
 void dynamicProcThatUsedDetails(dllInfo* currDllToCheck) {
+	int count = 1;
 	dllDict* currDll = searchDll(currDllToCheck, NULL);
 	if (currDll == NULL) {
 		return;
 	}
 	processDict* currP;
 	currP = currDll->usedBy;
-	strcpy(buffer, "");
 		while (currP != NULL) {
+			strcpy(buffer, "");
 				strcat(buffer, "<tr>\n");
 				strcat(buffer, "<td class=\"border name\">");
 				strcat(buffer, currP->processName);
@@ -52,6 +55,13 @@ void dynamicProcThatUsedDetails(dllInfo* currDllToCheck) {
 				strcat(buffer, converter);
 				strcat(buffer, "</td>");
 				strcat(buffer, "</tr>");
+				if (count == 1) {
+					saveTempFile(usedByProcData, buffer, "w");
+					count++;
+				}
+				else {
+					saveTempFile(usedByProcData, buffer, "a");
+				}
 				currP = currP->next;
 		    }
 		}
@@ -70,7 +80,8 @@ void dynamicProcThatUsedDetails(dllInfo* currDllToCheck) {
 	dllPageCounter++;	// increment the dllPageCounter
 	
 	dynamicChosenDll(currentD);
-	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\StaticDllPage.html", "dynamicChosenDll", updatedFileName);
+	insertDynamicData(staticDllPage, "dynamicChosenDll", updatedFileName);
 	dynamicProcThatUsedDetails(currentD);
-	insertDynamicData(updatedFileName, "dynamicProcThatUsedDetails", updatedFileName);
+	insertDataFromFile(updatedFileName, usedByProcData, "dynamicProcThatUsedDetails", updatedFileName);
+	
 }

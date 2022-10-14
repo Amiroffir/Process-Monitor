@@ -11,7 +11,9 @@
 #include <windows.h>
 #pragma warning(disable:4996)
 
-#define sampleNameTemplate "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\Sample"
+#define sampleNameTemplate "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Sample-Pages\\Sample"
+#define staticSamplePage "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Static-Src-Pages\\StaticSamplePage.html"
+#define sampleProcsData "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-HTML\\Dynamic-Data-Pages\\dynamicProcessesDetails.html"
 char sampleNum[50];
 processinformation* sortedList;
 
@@ -59,7 +61,7 @@ void dynamicProcessesDetails(processinformation* currProcList) {
 		sprintf(converter, "%d", currProcList->memoryinfo.WorkingSetSize);
 		strcat(buffer, converter);
 		if (atoi(converter) == addIcon) {
-			strcat(buffer, "\t<img src=\"C:/Users/Amir Offir/.vscode/Process-Monitor/Images/icons8-error-48.png\" width=\"22\" height=\"22\" class=\"d-inline-block align-bottom\" alt=\"\"/>");
+			strcat(buffer, "\t<img src=\"C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\images\\icons8-error-48.png\" width=\"22\" height=\"22\" class=\"d-inline-block align-bottom\" alt=\"\"/>");
 		}
 		strcat(buffer, "</td>\n");
 		strcat(buffer, "<td class=\"border\">");
@@ -100,12 +102,13 @@ void dynamicProcessesDetails(processinformation* currProcList) {
 		strcat(buffer, "</td>\n");
 		strcat(buffer, "</tr>\n");
 		if (count == 1) {
-			saveTempFile("dynamicProcessesDetails.html", buffer,"w");
+			saveTempFile(sampleProcsData, buffer,"w");
+			count++;
 		}
 		else {
-				saveTempFile("dynamicProcessesDetails.html", buffer, "a");
+				saveTempFile(sampleProcsData, buffer, "a");
 		}
-		count++;
+		//count++;
 		currProcList = currProcList->next;
 	}
 	
@@ -119,7 +122,7 @@ void generateSample(snapshotsList* currS) {
 	strcat(updatedFileName, sampleNum);
 	sortedList = SortByLoadedDlls(currS);
 	dynamicChosenSample(currS);
-	insertDynamicData("C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Process-Monitor-Design\\StaticSamplePage.html", "dynamicChosenSample", updatedFileName);
-	dynamicProcessesDetails(sortedList /*currS->snapshotData*/);
-	insertDataFromFile(updatedFileName,"dynamicProcessesDetails.html","dynamicProcessesDetails", updatedFileName);
+	insertDynamicData(staticSamplePage, "dynamicChosenSample", updatedFileName);
+	dynamicProcessesDetails(sortedList);
+	insertDataFromFile(updatedFileName,sampleProcsData,"dynamicProcessesDetails", updatedFileName);
 }

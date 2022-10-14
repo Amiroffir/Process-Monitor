@@ -68,7 +68,7 @@ while (chosenNumber != 9)
 			strcpy(snapshotListStatus, "Snapshot list status: Snapshot taken ");
 			for (int i = 1; i < snapshotCounter; i++) // update the list status after loading
 			{
-				strcat(snapshotListStatus, "-> Snapshot taken");
+				strcat(snapshotListStatus, "-> Snapshot taken->");
 			}
 			LogEvent("Data loaded from file\n");
 			break;
