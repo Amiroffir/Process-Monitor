@@ -13,7 +13,7 @@
 /// <summary>
 ///  This function saves a char pointer to a file
 /// </summary>
-/// <param name="fileName"></param>
+/// <param name="fileName"> </param>
 /// <param name="buff"> </param>
 int SaveIntoFile(char* fileName, char* buff)
 {
