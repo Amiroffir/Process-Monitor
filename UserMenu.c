@@ -61,6 +61,14 @@ while (chosenNumber != 9)
 			LogEvent("Data saved to file\n");
 			break;
 		case 8:
+			if (snapshotCounter > 0) {
+				printf("Load data from file will delete all current data. Are you sure? (y/n)\n");
+				if (_getch() == 'n') {
+					break;
+				}
+				resetSnapshotCollection();
+			}
+			
 			printf("\nLoad from File\n");
 			loadFromFile();
 			printf("Snapshots Loaded\n\n");

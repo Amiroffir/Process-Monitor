@@ -55,3 +55,9 @@ a.navbar-brand {
 .border-bottom {
   color: gray;
 }
+.icon {
+  vertical-align: bottom;
+}
+.ddt {
+  margin-left: -50px;
+}

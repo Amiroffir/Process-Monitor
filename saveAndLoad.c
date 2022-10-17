@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #pragma warning(disable:4996)
 
-char fileNameTemplate[120] = "C:\\Users\\Amir Offir\\VSC-workspace\\Process-Monitor\\Saved-Monitoring-Files\\snapshotsData_";
+char fileNameTemplate[120] = "Saved-Monitoring-Files\\snapshotsData_";
 
 /// <summary>
 	/// Counts the number of dlls in a given process
@@ -66,11 +66,11 @@ void saveToFile() {
 	FILE* fp;
 	fp = fopen(saveDate, "wb"); // Open the file to write
 	if (fp == NULL) {
-		printf("Error opening file");
-		LogError(strerror(GetLastError()));
+		printf("Error opening file\n");
+		LogError(strcat(strerror(GetLastError()),"\n"));
 		return;
 	}
-	LogEvent("File opened successfully");
+	LogEvent("File opened successfully for writing\n");
 
 	snapshotsList* currentS = snapshotListHead; // Get the head of the snapshots list
 	fwrite(&header, sizeof(snapList_Header), 1, fp); // Write the header to the file
@@ -102,10 +102,6 @@ void saveToFile() {
 		}
 		currentS = currentS->nextSnap;
 	}
-	// saving the dictionary lists to a bin file
-	
-	
-	
 }
 
 /// <summary>
@@ -119,17 +115,17 @@ void loadFromFile() {
 	//scanf("%s", saveDate);
 	//strcat(fileNameTemplate, saveDate);
 	//strcat(fileNameTemplate, ".bin");
-	strcpy(fileNameTemplate , "snapshotsData_14.10.2022.bin");
+	strcat(fileNameTemplate , "16.10.2022.bin");
 	
 	// Open the file to read
 	FILE* fp;
 	fp = fopen(fileNameTemplate, "rb");
 	if (fp == NULL) {
-		printf("Error opening file");
-		LogError(strerror(GetLastError()));
+		printf("Error opening file\n");
+		LogError(strcat(strerror(GetLastError()),"n"));
 		return;
 	}
-	LogEvent("File opened successfully");
+	LogEvent("File opened successfully for reading\n");
 	
 	if (fread(&header, sizeof(snapList_Header), 1, fp) != 0) { // Read the header from the file
 		snapshotListHead = NULL; // Initialize the snapshots list head
@@ -154,15 +150,18 @@ void loadFromFile() {
 
 						for (int j = 0; j < dlls_header.privateLoadedDlls; j++) { // for each dll in the process
 							fread(&currDll->dllName, sizeof(currDll->dllName), 1, fp);
-							if (searchDll(currDll->dllName, currSnap) == NULL) {//
-								addDllToDict(currDll->dllName, currSnap);//
+							
+							// If the dll is not in the dictionary, add it
+							if (searchDll(currDll->dllName, currSnap) == NULL) {
+								addDllToDict(currDll->dllName, currSnap);
 							}
 							currSnap->dllInfo = addDllToList(currDll); // Add the dll to the dlls list
 						}
 						dllListInit(); // Initialize the dlls list head
 					}
-					if (searchProcess(currSnap->processName, currSnap->processID) == NULL) {//
-						addProcToDict(currSnap->processName, currSnap->processID);//
+					// if the process is not in the dictionary, add it
+					if (searchProcess(currSnap->processName, currSnap->processID) == NULL) {
+						addProcToDict(currSnap->processName, currSnap->processID);
 					}//
 					newSnap = addProcess(currSnap); // Add the process to the processes list
 				}
@@ -170,7 +169,6 @@ void loadFromFile() {
 			addSnapshot(newSnap); // Add the snapshot to the snapshots list
 			processesListInit(); // Initialize the processes list head
 		}
-			
 	}
 }
 	

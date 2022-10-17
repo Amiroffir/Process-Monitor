@@ -2,6 +2,7 @@
 #include <stdlib.h> 
 #include <string.h>
 #include <windows.h>
+#include "Dictionary.h"
 #include "ProcessesLinkedList.h"
 #include <psapi.h>
 #include "GetProcessesInfo.h"
@@ -215,8 +216,12 @@ void printSnapshots() {
 void resetSnapshotCollection() {
 	snapshotsList* currSnap;
 	snapshotsList* releaseSnap;
+	processDict* currProcDict;
+	processDict* releaseProcDict;
 	processinformation* currentP;
 	processinformation* releaseProcess;
+	dllDict* currDllDict;
+	dllDict* releaseDllDict;
 	dllInfo* currD;
 	dllInfo* releaseDll;
 	
@@ -240,6 +245,25 @@ void resetSnapshotCollection() {
 	}
 	snapshotListHead = NULL; // reset the head of the list
 	snapshotListTail = NULL; // reset the tail of the list
+
+	currProcDict = procDictHead;
+	while (currProcDict != NULL) {
+		releaseProcDict = currProcDict;
+		currProcDict = currProcDict->next;
+		free(releaseProcDict);
+	}
+	procDictHead = NULL;
+
+	currDllDict = dllDictHead;
+	while (currDllDict != NULL) {
+		releaseDllDict = currDllDict;
+		currDllDict = currDllDict->next;
+		free(releaseDllDict);
+	}
+	dllDictHead = NULL;
+	
+	PCounter = 0;
+	DCounter = 0;
 }
 
 /// <summary>

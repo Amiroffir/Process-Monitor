@@ -13,32 +13,38 @@
 processinformation* procInfoHead = NULL;
 processinformation* procInfoTail = NULL;
 
-
-
-
+/// <summary>
+	///  Counts the total number of dlls in a snapshot
+	/// </summary>
 int totalSnapshotDlls(processinformation* snapHead) {
 	
 	int dllCount = 0;
 	processinformation* current = snapHead;
 	while (current != NULL)
 	{
-		dllCount += dllsCount(current->dllInfo);
+		dllCount += dllsCount(current->dllInfo); //dllsCount is a function that counts the number of dlls in a process
 		current = current->next;
 	}		
 	return dllCount;
 }
 
+/// <summary>
+	///  Counts the total number of processes in a collection
+	/// </summary>
 int totalProcessesCount(snapshotsList* head) {
 	int count = 0;
 	snapshotsList* current = head;
 	while (current != NULL)
 	{
-		count += processesCount(current->snapshotData);
+		count += processesCount(current->snapshotData); //processesCount is a function that counts the number of processes in a snapshot
 		current = current->nextSnap;
 	}
 	return count;
 }
 
+/// <summary>
+	///  Counts the total memory usage of a snapshot
+	/// </summary>
 unsigned long totalMemoryUsageCount(processinformation* snapHead) {
 	unsigned long count = 0;
 	processinformation* current = snapHead;
@@ -50,21 +56,25 @@ unsigned long totalMemoryUsageCount(processinformation* snapHead) {
 	return count;
 }
 
-
+/// <summary>
+	   ///  Counts the average memory usage of a collection
+	   /// </summary>
 unsigned long memoryUsageAvg(snapshotsList* head) {
-	
-	    int count = totalProcessesCount(head);
+	   
+	int count = totalProcessesCount(head); //totalProcessesCount is a function that counts the total number of processes in a collection
 		unsigned long totalMemoryUsage = 0;
 		snapshotsList* current = head;
 		while (current != NULL)
 		{
-			totalMemoryUsage += totalMemoryUsageCount(current->snapshotData);
+			totalMemoryUsage += totalMemoryUsageCount(current->snapshotData); //totalMemoryUsageCount is a function that counts the total memory usage of a snapshot
 			current = current->nextSnap;
 		}
-		return totalMemoryUsage / count;
+		return totalMemoryUsage / count; //returns the average memory usage of a collection
 }
 
-
+/// <summary>
+   ///  Swaps the order of two processes
+   /// </summary>
 void swap(processinformation* Address)
 {
 	if (Address == NULL || Address->next == NULL)
@@ -101,8 +111,11 @@ void swap(processinformation* Address)
 	}
 }
 
+/// <summary>
+		///  Sorts the processes (shaker sort) in a snapshot by the number of loaded dlls
+		/// returns the head of the sorted list
+		/// </summary>
 processinformation* SortByLoadedDlls(snapshotsList* snapHead) {
-	{
 		
 		procInfoHead = (processinformation*)malloc(sizeof(processinformation));
 		procInfoHead = snapHead->snapshotData;
@@ -110,15 +123,16 @@ processinformation* SortByLoadedDlls(snapshotsList* snapHead) {
 		processinformation* temp = procInfoHead;
 		
 		int swapped = 1;
-		while (swapped == 1)
+		while (swapped == 1) 
 		{
-			swapped = 0;
+			swapped = 0; //reset the swapped flag on entering the loop
 			while (current->next != NULL)
 			{
-				if (current->totalLoadedDlls < current->next->totalLoadedDlls)
+				// if the current process has les dlls than the next one
+				if (current->totalLoadedDlls < current->next->totalLoadedDlls) 
 				{
 					swap(current);
-					swapped = 1;
+					swapped = 1; //shows that a swap occurred
 				}
 				else
 				{
@@ -126,8 +140,8 @@ processinformation* SortByLoadedDlls(snapshotsList* snapHead) {
 				}
 			}
 			if (swapped == 0)
-			{
-				break;
+			{ 
+				break; // exit the outer loop if no swaps occurred.
 			}
 			swapped = 0;
 			while (current->prev != NULL)
@@ -143,31 +157,39 @@ processinformation* SortByLoadedDlls(snapshotsList* snapHead) {
 				}
 			}
 		}
-			snapHead->snapshotData = procInfoHead;
-		return procInfoHead;
-	}
+		snapHead->snapshotData = procInfoHead; //update the head of the snapshot processes list
+		return procInfoHead; //return the head of the sorted processes list
 }
 
-int highestMemoryUsage(processinformation* snapHead) {
+/// <summary>
+		///  Finds the highest memory usage process of a snapshot
+		/// </summary>
+unsigned long long highestMemoryUsage(processinformation* snapHead) {	
 	
-		int highest = 0;
+		unsigned long long highest = 0;
 		processinformation* current = snapHead;
 		while (current != NULL)
 		{
 			if (current->memoryinfo.WorkingSetSize > highest)
 			{
-				highest = current->memoryinfo.WorkingSetSize;
+				highest = current->memoryinfo.WorkingSetSize; 
 			}
 			current = current->next;
 		}
 		return highest;
 	}
 	
+/// <summary>
+	///  Counts the total number of processes that used a given dll
+	/// </summary>
 int totalProcThatUsed(dllInfo* currD) {
-	dllDict* identicalDll = searchDll(currD,NULL);
+	
+	dllDict* identicalDll = searchDll(currD, NULL); // retrieve the current Dll from the dll dictionary
 	processDict* current = identicalDll->usedBy;
 	 int procesessCount = 0;
-	while (current != NULL)
+	
+ // count the number of processes that used the dll
+	while (current != NULL) 
 	{
 		procesessCount++;
 		current = current->next;

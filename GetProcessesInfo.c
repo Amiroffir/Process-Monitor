@@ -54,7 +54,7 @@ char strTime[100];
 	}
 	else
 	{
-		LogError(strerror(GetLastError()));
+		LogError(strcat(strerror(GetLastError()),"\n"));
 	}
 
 
@@ -92,6 +92,8 @@ char strTime[100];
 				wcstombs_s(&numConverted, dllName, MAX_PATH, Buffer2, MAX_PATH); 
 				
 				strcpy(currentD->dllName, dllName);
+				
+				// if the dll isn't in the dictionary list, add it
 				if (searchDll(currentD->dllName, currentP) == NULL) {
 					addDllToDict(currentD->dllName, currentP);
 				}
@@ -127,7 +129,7 @@ char strTime[100];
 
 	if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))
 	{
-		LogError(strerror(GetLastError()));
+		LogError(strcat(strerror(GetLastError()),"\n"));
 		return 1;
 	}
 
@@ -139,6 +141,7 @@ char strTime[100];
 	{ 
 		currProcess = GetMemoryInfo(aProcesses[i]);
 		if (currProcess != NULL) { // if the process is not null
+			// if the process isn't in the dictionary list, add it
 			if (searchProcess(currProcess->processName,currProcess->processID) == NULL) {
 				addProcToDict(currProcess->processName, currProcess->processID);
 			}
