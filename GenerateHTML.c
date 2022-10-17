@@ -14,7 +14,7 @@
 ///  This function saves a char pointer to a file
 /// </summary>
 /// <param name="fileName"></param>
-/// <param name="buff"></param>
+/// <param name="buff"> </param>
 int SaveIntoFile(char* fileName, char* buff)
 {
 	FILE* fi = fopen(fileName, "w");
