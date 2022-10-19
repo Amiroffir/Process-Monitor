@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+  font-family: "Lato", sans-serif;
+}
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body {
+  font-size: 15px;
+  width: 100vw;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+a.navbar-brand {
+  font-size: 18.5px;
+  font-weight: 300;
+  padding-right: 8px;
+}
+#p-name {
+  font-weight: bold;
+  font-size: 21px;
+  margin-left: 10px;
+  padding-right: 10px;
+}
+.border-bottom {
+  color: gray;
+}
+.main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 0px;
+  width: 100%;
+}
+.bg-image {
+  height: 130px;
+  width: 100%;
+  opacity: 0.95;
+  z-index: -1;
+}
+.footer {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: rgb(27, 27, 27);
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+}
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column-gap: 1rem;
+}
+.w-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 940px;
+}
+.footer-logo {
+  align-self: flex-end;
+  font-family: Lato, sans-serif;
+  color: #c2c2c2;
+  font-size: 16.5px;
+  line-height: 22px;
+  font-weight: 300;
+}
+.footer-socials {
+  border-radius: 10px;
+  background-color: #fff;
+  filter: grayscale(100%);
+  transition: 0.2s ease-out;
+}
+.footer-socials.whatsapp {
+  border-radius: 0;
+  background-color: transparent;
+}
+.footer-socials:hover {
+  filter: grayscale(0%);
+}
+.main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 0px;
+  width: 100%;
+}
+
+.myImg {
+  display: block;
+  width: 191px;
+  margin-right: auto;
+  margin-bottom: 60px;
+  margin-left: auto;
+  border-radius: 19%;
+  box-shadow: 4px 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+.about-section {
+  padding: 45px;
+  text-align: center;
+  background-image: url("../images/quinton-coetzee-gpa8Y_Fk7Rg-unsplash\ \(1\).jpg");
+  opacity: 0.93;
+  color: #fff;
+  background-position: 50% 110%;
+}
+.about-section h1 {
+  font-size: 70px;
+  word-spacing: 7px;
+  letter-spacing: 2px;
+  font-family: "Lato", sans-serif;
+}
+.main-container {
+  background-color: rgb(27, 27, 27);
+}
+.main-content {
+  padding: 10px 50px 50px 50px;
+  text-align: center;
+  color: #fff;
+  width: 55%;
+}
+.main-content p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  text-align: start;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.bg-3 {
+  margin-top: 60px;
+}
+p a {
+  color: #00d6b4;
+  font-size: 16px;
+  text-decoration: none;
+}
+p a:hover {
+  color: #00d6b4;
+  text-decoration: underline;
+}
+.col-sm-4 {
+  padding-top: 25px;
+}
+
+.col-sm-4:hover {
+  transform: perspective(1px) scale(1.15);
+  transition: 0.35s ease-out;
+}

@@ -122,7 +122,8 @@ void loadFromFile() {
 	fp = fopen(fileNameTemplate, "rb");
 	if (fp == NULL) {
 		printf("Error opening file\n");
-		LogError(strcat(strerror(GetLastError()),"n"));
+		printf("%s\n", strerror(errno));
+		LogError(strcat(strerror(GetLastError()),"\n"));
 		return;
 	}
 	LogEvent("File opened successfully for reading\n");

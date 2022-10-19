@@ -20,7 +20,6 @@ int SaveIntoFile(char* fileName, char* buff)
 	FILE* fi = fopen(fileName, "w");
 	if (!fi)
 	{
-		printf("Error opening file");
 		LogError(strcat(strerror(GetLastError),"\n"));
 		return 0;
 	}
@@ -40,7 +39,6 @@ char* ReadAllFile(char* fileName)
 	FILE* f = fopen(fileName, "r");
 	if (!f)
 	{
-		printf("Error opening file\n");
 		LogError(strcat(strerror(GetLastError),"\n"));
 		return NULL;
 	}
@@ -65,7 +63,6 @@ char* ReadAllFile(char* fileName)
 	f = fopen(fileName, "r");
 	if (!f)
 	{
-		printf("Error opening file");
 		LogError(strcat(strerror(GetLastError),"\n"));
 		return NULL;
 	}
@@ -92,7 +89,6 @@ int saveTempFile(char* fileName, char* buff, char fileAction[5])
 	FILE* fi = fopen(fileName, fileAction); // fileAction - "w" for write, "a" for append
 	if (!fi)
 	{
-		printf("Error opening file\n");
 		LogError(strcat(strerror(GetLastError),"\n"));
 		return 0;
 	}

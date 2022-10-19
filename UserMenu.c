@@ -44,6 +44,13 @@ while (chosenNumber != 9)
 			printf("\nEnd Long Snapshot\n");
 			break;
 		case 5:
+			
+			if (snapshotCounter == 0) {
+				printf("No Snapshots to generate report\n");
+				printf("Please take a snapshot first\n");
+				break;
+			}
+			
 			printf("\nGenerate HTML Report\n");
 			generateHtml();
 			LogEvent("HTML Report generated\n");
@@ -68,17 +75,21 @@ while (chosenNumber != 9)
 				}
 				resetSnapshotCollection();
 			}
-			
 			printf("\nLoad from File\n");
+			
 			loadFromFile();
-			printf("Snapshots Loaded\n\n");
+			
 			snapshotCounter = header.snapshotsCount; // update the snapshot counter
-			strcpy(snapshotListStatus, "Snapshot list status: Snapshot taken ");
-			for (int i = 1; i < snapshotCounter; i++) // update the list status after loading
-			{
-				strcat(snapshotListStatus, "-> Snapshot taken->");
+			// prevents the continuation, in case the user tried to load an empty file\not existing file
+			if (snapshotCounter > 0) {
+				strcpy(snapshotListStatus, "Snapshot list status: Snapshot taken ");
+				for (int i = 1; i < snapshotCounter; i++) // update the list status after loading
+				{
+					strcat(snapshotListStatus, "-> Snapshot taken->");
+				}
+				printf("Snapshots Loaded\n\n");
+				LogEvent("Data loaded from file\n");
 			}
-			LogEvent("Data loaded from file\n");
 			break;
 		case 9:
 			printSnapshots();
