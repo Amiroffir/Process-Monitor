@@ -29,6 +29,10 @@ h3 {
 table {
   text-align: center;
 }
+caption {
+  font-size: 16px;
+  font-weight: 490;
+}
 .table.table {
   width: 70%;
   margin-left: auto;
