@@ -1,10 +1,6 @@
 #include "MyUtilities.h"
 #include "ProcessesLinkedList.h"
 #include "GetProcessesInfo.h"
-//#include "saveAndLoad.h"
-//#include "GenerateHTML.h"
-//#include "GenerateHomePage.h"
-//#include "HtmlDataProcessor.h"
 #include "Dictionary.h"
 #include <stdio.h>
 #include <string.h>
@@ -22,7 +18,7 @@ dllDict* dllDictTail = NULL; // tail of the dlls dictionary
 	/// <param name="usedByHead"></param>
 	/// <param name="processToAdd"></param>
 	/// <returns>head of updated used by list</returns>
-struct processDict* addProcessToUsedBy(processDict* usedByHead, processinformation* processToAdd) {
+struct processDict* addProcessToUsedBy(processDict* usedByHead, processInformation* processToAdd) {
 	
 	// allocate memory for the new process dictionary && copy the relevant details
 	processDict* processDictToAdd = (processDict*)malloc(sizeof(processDict));  
@@ -56,6 +52,9 @@ struct processDict* addProcessToUsedBy(processDict* usedByHead, processinformati
 	/// <param name="processName"></param>
 	/// <param name="processID"></param>
 void addProcToDict(char processName[MAX_PATH], unsigned int processID) {
+	if (processID == 3452816845) { // A process that has no name
+		return;
+	}
 	processDict* curr = malloc(sizeof(processDict));
 	strcpy(curr->processName, processName);
 	curr->processID = processID;
@@ -79,8 +78,8 @@ void addProcToDict(char processName[MAX_PATH], unsigned int processID) {
 	///  Adds a DLL to the DLLs dictionary and initializes his usedBy list head
 	/// </summary>
 	/// <param name="dllName"></param>
-	/// <param name="proc"></param>
-void addDllToDict(char dllName[MAX_PATH], processinformation* parentProc) {
+	/// <param name="parentProc"></param>
+void addDllToDict(char dllName[MAX_PATH], processInformation* parentProc) {
 	// get the parent process which the dll runs in and
 	// allocate memory for the new process after copy the relevant details 
 	processDict* processDictToAdd = (processDict*)malloc(sizeof(processDict)); 
@@ -108,23 +107,6 @@ void addDllToDict(char dllName[MAX_PATH], processinformation* parentProc) {
 	DCounter++; // increase the number of DLLs in the dictionary (unique DLLs)
 }
 
-/*void printProcDictionary() {
-
-	 processDict* curr = procDictHead;
-	while (curr != NULL) {
-		printf("Process Name: %s\t Process ID: %d\n", curr->processName, curr->processID);
-		curr = curr->next;
-	}
-}
-
-void printDllDictionary() {
-	dllDict* curr = dllDictHead;
-	while (curr != NULL) {
-		printf("Dll Name: %s", curr->dllName);
-		curr = curr->next;
-	}
-}
-*/
 
 /// <summary>
 	///  Searches for a process in the processes dictionary
@@ -147,7 +129,7 @@ struct processDict* searchProcess(char processName[MAX_PATH], unsigned int proce
 	///  Searches for a DLL in the DLLs dictionary
 	/// returns the DLL if found, NULL otherwise
 	/// </summary>
-struct dllDict* searchDll(char dllName[MAX_PATH],processinformation* parentProcess) {
+struct dllDict* searchDll(char dllName[MAX_PATH],processInformation* parentProcess) {
 	dllDict* curr = dllDictHead;
 	while (curr != NULL) {
 		if (strcmp(curr->dllName, dllName) == 0) { 

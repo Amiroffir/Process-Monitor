@@ -15,7 +15,7 @@
 #define staticSamplePage "Process-Monitor-HTML\\Static-Src-Pages\\StaticSamplePage.html" // the static sample page path
 #define sampleProcsData "Process-Monitor-HTML\\Dynamic-Data-Pages\\dynamicProcessesDetails.html" // the dynamic data of the processes path
 char sampleNum[50];
-processinformation* sortedList; 
+processInformation* sortedList; 
 
 /// <summary>
 	///  This function is  generating the dynamic data of the chosen sample
@@ -35,7 +35,7 @@ void dynamicChosenSample(snapshotsList* currS) {
 	///  This function is generating the dynamic data of the processes
 	/// </summary>
 	/// <param name="currProcList"></param>
-void dynamicProcessesDetails(processinformation* currProcList) {
+void dynamicProcessesDetails(processInformation* currProcList) {
 	unsigned long long addIcon = highestMemoryUsage(currProcList); // get the highest memory usage for future use
 	int count = 1;
 	while (currProcList != NULL) {
@@ -123,6 +123,6 @@ void generateSample(snapshotsList* currS) {
 	
 	dynamicChosenSample(currS); 
 	insertDynamicData(staticSamplePage, "dynamicChosenSample", updatedFileName);
-	dynamicProcessesDetails(sortedList); // 
+	dynamicProcessesDetails(sortedList); 
 	insertDataFromFile(updatedFileName,sampleProcsData,"dynamicProcessesDetails", updatedFileName);
 }

@@ -9,8 +9,8 @@
 #pragma warning(disable:4996)
 
 snapshotsList* snapshotListTail = NULL;
-processinformation* processesHead = NULL; 
-processinformation* processesTail = NULL;
+processInformation* processesHead = NULL; 
+processInformation* processesTail = NULL;
 dllInfo* headDll = NULL;
 dllInfo* tailDll = NULL;
 
@@ -18,13 +18,13 @@ dllInfo* tailDll = NULL;
 /// Adds a process to the linked list
 /// returns the head of the list
 /// </summary>
-struct processinformation* addProcess(processinformation* current)
+struct processInformation* addProcess(processInformation* current)
 {
-	if (current->processID == 3452816845) { // A process that has no name(system idle process)
+	if (current->processID == 3452816845) { // A process that has no name(system idle process) **************
 		return processesHead;
 	}
-    processinformation* currentProcess; 
-	currentProcess = (processinformation*)malloc(sizeof(processinformation)); // allocate memory for the new process
+    processInformation* currentProcess; 
+	currentProcess = (processInformation*)malloc(sizeof(processInformation)); // allocate memory for the new process
     strcpy(currentProcess->processName,current->processName); 
 	currentProcess->processID = current->processID;
 	currentProcess->memoryinfo = current->memoryinfo;
@@ -59,20 +59,24 @@ struct processinformation* addProcess(processinformation* current)
 	/// <param name="destList"></param>
 	/// <param name="addToList"></param>
 	/// <returns>Updated list</returns>
-struct processinformation* addExtraProcess(processinformation* destList, processinformation* addToList) {
-	
-	if (addToList->processID == 3452816845) { // A process that has no name(system idle process)
-		return destList;
-	}
-	processinformation* findLast;
+struct processInformation* addExtraProcess(processInformation* destList, processInformation* addToList) {
+	processInformation* processToAdd = (processInformation*) malloc(sizeof(processInformation));
+	processToAdd->processID = addToList->processID;
+	strcpy(processToAdd->processName, addToList->processName);
+	processToAdd->memoryinfo = addToList->memoryinfo;
+	processToAdd->dllInfo = addToList->dllInfo;
+	processToAdd->totalLoadedDlls = addToList->totalLoadedDlls;
+	processToAdd->snapshotCounter = addToList->snapshotCounter;
+	strcpy(processToAdd->snapshotTime, addToList->snapshotTime);
+	processInformation* findLast;
 	findLast = destList;
 	while (findLast->next != NULL)
 	{
 		findLast = findLast->next;
 	}
-	findLast->next = addToList;
-	addToList->prev = findLast;
-	addToList->next = NULL;
+	findLast->next = processToAdd;
+	processToAdd->prev = findLast;
+	processToAdd->next = NULL;
 	return destList;
 }
 
@@ -110,22 +114,24 @@ struct dllInfo* extraDllsCheck(dllInfo* destDll, dllInfo* dllToAdd) {
 /// Adds an extra dll to the end of the linked list
 /// </summary>
 struct dllInfo* addExtraDlls(dllInfo* destDlls, dllInfo* dllToAdd) {
-	
+	dllInfo* dllToAddToDest = (dllInfo*)malloc(sizeof(dllInfo));
+	strcpy(dllToAddToDest->dllName, dllToAdd->dllName);
 	dllInfo* findLast;
 	findLast = destDlls;
 	while (findLast->next != NULL)
 	{
 		findLast = findLast->next;
 	}
-	findLast->next = dllToAdd;
-	dllToAdd->prev = findLast;
-	dllToAdd->next = NULL;
+	findLast->next = dllToAddToDest;
+	dllToAddToDest->prev = findLast;
+	dllToAddToDest->next = NULL;
 	return destDlls;
 }
 
 /// <summary>
    /// Adds a dll to the linked list and returns the head of the list
-   /// </summary>
+/// </summary>
+/// <param name="current"></param>
 struct dllInfo* addDllToList(dllInfo* current)
 {
     dllInfo* currentDll;
@@ -150,11 +156,12 @@ struct dllInfo* addDllToList(dllInfo* current)
 
 	return headDll; // return the head of the list
 }
+
 /// <summary>
-	   /// Adds a snapshot to the linked list
-	   /// </summary>
-	   /// <param name="currentSnapshot"></param>
-void addSnapshot(struct processinformation* currentSnapshot) {
+	/// Adds a snapshot to the linked list
+/// </summary>
+/// <param name="currentSnapshot"></param>
+void addSnapshot(struct processInformation* currentSnapshot) {
         snapshotsList* currentSnap;
         currentSnap = (snapshotsList*)malloc(sizeof(snapshotsList));
         currentSnap->snapshotData = currentSnapshot; 
@@ -174,11 +181,10 @@ void addSnapshot(struct processinformation* currentSnapshot) {
         snapshotListTail->nextSnap = NULL;	
 }
 
-
 //Utility function
 void printSnapshots() {
 	snapshotsList* curr;
-    processinformation* current;
+    processInformation* current;
 	dllInfo* currD;
 	curr = snapshotListHead;
 	while (curr != NULL) {
@@ -212,18 +218,18 @@ void printSnapshots() {
 
 /// <summary>
 	/// Resets the snapshot collection
-	/// </summary>
+/// </summary>
 void resetSnapshotCollection() {
 	snapshotsList* currSnap;
 	snapshotsList* releaseSnap;
-	processDict* currProcDict;
-	processDict* releaseProcDict;
-	processinformation* currentP;
-	processinformation* releaseProcess;
-	dllDict* currDllDict;
-	dllDict* releaseDllDict;
+	processInformation* currentP;
+	processInformation* releaseProcess;
 	dllInfo* currD;
 	dllInfo* releaseDll;
+	processDict* currProcDict;
+	processDict* releaseProcDict;
+	dllDict* currDllDict;
+	dllDict* releaseDllDict;
 	
 	currSnap = snapshotListHead;
 	while (currSnap != NULL) {
@@ -267,18 +273,16 @@ void resetSnapshotCollection() {
 }
 
 /// <summary>
-		/// Initializes the processes list
-		/// </summary>
+	/// Initializes the processes list
+/// </summary>
 void processesListInit() {
-		
-	
 		processesHead = NULL;
 		processesTail = NULL;
 }
 
 /// <summary>
-		/// Initializes the dlls list
-		/// </summary>
+	/// Initializes the dlls list
+/// </summary>
 void dllListInit() {
 	headDll = NULL;
 	tailDll = NULL;

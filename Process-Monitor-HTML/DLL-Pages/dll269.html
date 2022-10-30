@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="DllPage.css" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css"
+      integrity="sha512-rSWTr6dChYCbhpHaT1hg2tf4re2jUxBWTuZbujxKg96+T87KQJriMzBzW5aqcb8jmzBhhNSx4XYGA6/Y+ok1vQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Process Monitor</title>
+  </head>
+  <body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+      <a class="navbar-brand" id="p-name" href="#"> Process Monitor </a>
+      <a class="navbar-brand border-bottom" href="../Home-Page/HomePage.html">
+        <img
+          src="../images/icons8-home-page-50.png"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+        />
+        Home
+      </a>
+      <a class="navbar-brand border-bottom" href="../About-Me/About.html">
+        <img
+          src="../images/icons8-more-info-50.png"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+        />
+        About Me
+      </a>
+    </nav>
+    <h3 class="border-bottom">DLL DETAILS</h3>
+    <table class="table table-hover table-dark table-sm" border="1">
+      <thead>
+        <tr>
+          <th>DLL Name</th>
+          <th>No. of processes that used it</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_14a5bb6045f923bf\igc64.dll</td><td>23</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 class="border-bottom">PROCESSES DETAILS</h3>
+    <table
+      class="table table-hover table-dark border processT table-sm"
+      border="1"
+    >
+      <thead>
+        <tr>
+          <th class="border ProcTableHead">Process Name</th>
+          <th class="border ProcTableHead">Process ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+<td class="border name">C:\Windows\explorer.exe</td><td class="border">1688</td></tr><tr>
+<td class="border name">C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\TextInputHost.exe</td><td class="border">3808</td></tr><tr>
+<td class="border name">C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\StartMenuExperienceHost.exe</td><td class="border">10580</td></tr><tr>
+<td class="border name">C:\Windows\SystemApps\Microsoft.Windows.Search_cw5n1h2txyewy\SearchApp.exe</td><td class="border">11632</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\Microsoft.YourPhone_1.22082.119.0_x64__8wekyb3d8bbwe\PhoneExperienceHost.exe</td><td class="border">10764</td></tr><tr>
+<td class="border name">C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe</td><td class="border">13912</td></tr><tr>
+<td class="border name">C:\Program Files (x86)\Epic Games\Launcher\Engine\Binaries\Win64\EpicWebHelper.exe</td><td class="border">3232</td></tr><tr>
+<td class="border name">C:\Program Files\Google\Drive File Stream\65.0.4.0\GoogleDriveFS.exe</td><td class="border">14912</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\Microsoft.549981C3F5F10_4.2204.13303.0_x64__8wekyb3d8bbwe\Cortana.exe</td><td class="border">15692</td></tr><tr>
+<td class="border name">C:\Program Files (x86)\Dropbox\Client\Dropbox.exe</td><td class="border">17264</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\AD2F1837.HPSystemEventUtility_1.3.2.0_x64__v10z8vjag6ke6\SystemEventUtility\HPSystemEventUtilityHost.exe</td><td class="border">18388</td></tr><tr>
+<td class="border name">C:\Program Files (x86)\Google\Chrome\Application\chrome.exe</td><td class="border">17852</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\microsoft.windowscommunicationsapps_16005.14326.20970.0_x64__8wekyb3d8bbwe\HxCalendarAppImm.exe</td><td class="border">18464</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\5A894077.McAfeeSecurity_2.1.68.0_x64__wafk5atnkzcwy\mcafee-security.exe</td><td class="border">15624</td></tr><tr>
+<td class="border name">C:\Users\Amir Offir\AppData\Local\Microsoft\Teams\current\Teams.exe</td><td class="border">13904</td></tr><tr>
+<td class="border name">C:\Users\Amir Offir\AppData\Local\Microsoft\Teams\current\Teams.exe</td><td class="border">4664</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\Microsoft.ZuneVideo_10.22081.10041.0_x64__8wekyb3d8bbwe\Video.UI.exe</td><td class="border">2064</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2022.30070.26007.0_x64__8wekyb3d8bbwe\Microsoft.Photos.exe</td><td class="border">5992</td></tr><tr>
+<td class="border name">C:\Windows\SystemApps\ShellExperienceHost_cw5n1h2txyewy\ShellExperienceHost.exe</td><td class="border">1760</td></tr><tr>
+<td class="border name">C:\Program Files\WindowsApps\microsoft.windowscommunicationsapps_16005.14326.20970.0_x64__8wekyb3d8bbwe\HxOutlook.exe</td><td class="border">13412</td></tr><tr>
+<td class="border name">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe</td><td class="border">22412</td></tr><tr>
+<td class="border name">C:\Users\Amir Offir\AppData\Local\Programs\Microsoft VS Code\Code.exe</td><td class="border">6272</td></tr><tr>
+<td class="border name">C:\Program Files (x86)\Microsoft\EdgeWebView\Application\107.0.1418.26\msedgewebview2.exe</td><td class="border">3164</td></tr>
+      </tbody>
+    </table>
+  </body>
+</html>

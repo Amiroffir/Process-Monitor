@@ -11,11 +11,11 @@
 
 /// <summary>
    /// Function that sums the information of two identical processes & DLL's of two differnt snapshots.   /// The function returns the updated snapshot.
-  /// </summary>
-struct processinformation* sumProcessesInfo(processinformation* destSnapshot, processinformation* processToAdd) {
+/// </summary>
+struct processInformation* sumProcessesInfo(processInformation* destSnapshot, processInformation* processToAdd) {
 	int foundIdenticalProcess;
-	processinformation* destRunner;
-	processinformation* processToAddRunner;
+	processInformation* destRunner;
+	processInformation* processToAddRunner;
 	processToAddRunner = processToAdd; //runner for the process to add
 	while (processToAddRunner != NULL) { //for each process in the processToAdd snapshot
 
@@ -49,12 +49,12 @@ struct processinformation* sumProcessesInfo(processinformation* destSnapshot, pr
 
 /// <summary>
 	/// Function that creates a snapshot of the current processes and DLL's info.
-	/// </summary>
+/// </summary>
 void oneSnapshot() {
 
 	snapshotCounter++; //update the snapshot counter
 	printf("\nTaking One SnapShot\n");
-	oneSnapHead = (processinformation*)malloc(sizeof(processinformation));
+	oneSnapHead = (processInformation*)malloc(sizeof(processInformation));
 	oneSnapHead = GetProcessesInfo(); //get the processes info
 	addSnapshot(oneSnapHead); //add the snapshot to the linked list
 	processesListInit(); //initialize the processes list
@@ -70,7 +70,7 @@ void oneSnapshot() {
 
 /// <summary>
 	/// Function that creates a snapshot summarizes the processes and DLL's info in the last 20 seconds.
-	/// </summary>
+/// </summary>
 void twentySecSnapshot() {
 	snapshotCounter++;
 	printf("\nTaking 20 Seconds SnapShot\n");
@@ -78,7 +78,7 @@ void twentySecSnapshot() {
 	for (int i = 1; i < 20; i++)
 	{
 		if (i == 1) { // first snapshot is taken and will used as the base for the next snapshots
-			twentySnapHead = (processinformation*)malloc(sizeof(processinformation));
+			twentySnapHead = (processInformation*)malloc(sizeof(processInformation));
 			twentySnapHead = GetProcessesInfo();
 			processesListInit();
 		}
@@ -109,7 +109,7 @@ void longSnapshot() {
 	printf("\nStart long snapshot\n");
 	printf("\nPress 4 to End\n"); //user will press 4 to end the snapshot
 
-	longSnapHead = (processinformation*)malloc(sizeof(processinformation));
+	longSnapHead = (processInformation*)malloc(sizeof(processInformation));
 	longSnapHead = GetProcessesInfo();
 	processesListInit();
 	while (!_kbhit()) { //while the user didn't press a key

@@ -20,4 +20,4 @@ typedef struct snapshotList_Header {
  void saveToFile();
  void loadFromFile();
  int dllsCount(struct dllInfo* dllHead);
- int processesCount(struct processinformation* snapHead);
+ int processesCount(struct processInformation* snapHead);

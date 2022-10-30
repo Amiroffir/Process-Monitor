@@ -1,9 +1,9 @@
-struct processinformation* addProcess(struct processinformation* current);
+struct processInformation* addProcess(struct processInformation* current);
 struct dllInfo* addDllToList(struct dllInfo* current);
-struct processinformation* addExtraProcess(struct processinformation* destList, struct processinformation* addToList);
+struct processInformation* addExtraProcess(struct processInformation* destList, struct processInformation* addToList);
 struct dllInfo* extraDllsCheck(struct dllInfo* destDll, struct dllInfo* dllToAdd);
 struct dllInfo* addExtraDlls(struct dllInfo* destDlls, struct dllInfo* dllToAdd);
-void addSnapshot(struct processinformation* currentSnapshot);
+void addSnapshot(struct processInformation* currentSnapshot);
 
 // Utility function
 void printSnapshots();
@@ -13,7 +13,7 @@ void processesListInit();
 void dllListInit();
 
 struct SnapshotsList* snapshotListHead; // global head of the snapshots list
-struct processinformation* tempSnapHead;
-struct processinformation* oneSnapHead;
-struct processinformation* twentySnapHead;
-struct processinformation* longSnapHead;
+struct processInformation* tempSnapHead;
+struct processInformation* oneSnapHead;
+struct processInformation* twentySnapHead;
+struct processInformation* longSnapHead;

@@ -13,9 +13,9 @@ char fileNameTemplate[120] = "Saved-Monitoring-Files\\snapshotsData_";
 
 /// <summary>
 	/// Counts the number of dlls in a given process
-	/// </summary>
-	/// <param name="dllHead"></param>
-	/// <returns>Number of DLL's</returns>
+/// </summary>
+/// <param name="dllHead"></param>
+/// <returns>Number of DLL's</returns>
 int dllsCount(dllInfo* dllHead) {
 	dllInfo* currentD;
 	currentD = dllHead;
@@ -30,12 +30,11 @@ int dllsCount(dllInfo* dllHead) {
 
 /// <summary>
 	/// Counts the number of processes in a given snapshot
-	/// </summary>
-	/// <param name="snapHead"></param>
-	/// <returns>Number of processes</returns>
-int processesCount(processinformation* snapHead) {
-	processinformation* current;
-	//current = (processinformation*)malloc(sizeof(processinformation));
+/// </summary>
+/// <param name="snapHead"></param>
+/// <returns>Number of processes</returns>
+unsigned long processesCount(processInformation* snapHead) {
+	processInformation* current;
 	current = snapHead;
 	unsigned int procesessCount = 0;
 	while (current != NULL)
@@ -78,7 +77,7 @@ void saveToFile() {
 	// For each snapshot in the list, write the snapshot details to the file
 	for (int i = 0; i < header.snapshotsCount; i++) {
 		
-		processinformation* currentP = currentS->snapshotData; // Get the head of the processes list of a given snapshot
+		processInformation* currentP = currentS->snapshotData; // Get the head of the processes list of a given snapshot
 		process_header.loadedProcesses = processesCount(currentP); // Get the number of processes in the snapshot
 		fwrite(&process_header, sizeof(processesList_Header), 1, fp); // Write the processes list header to the file
 		
@@ -111,11 +110,10 @@ void loadFromFile() {
 	
 	// Get the user desired file name
 	char saveDate[120];
-	//printf("Enter the date of the Snapshots List you want to load (dd.mm.yyyy): ");
-	//scanf("%s", saveDate);
-	//strcat(fileNameTemplate, saveDate);
-	//strcat(fileNameTemplate, ".bin");
-	strcat(fileNameTemplate , "16.10.2022.bin");
+	printf("Enter the date of the Snapshots List you want to load (dd.mm.yyyy): ");
+	scanf("%s", saveDate);
+	strcat(fileNameTemplate, saveDate);
+	strcat(fileNameTemplate, ".bin");
 	
 	// Open the file to read
 	FILE* fp;
@@ -133,12 +131,12 @@ void loadFromFile() {
 		
 		for (int snapshotNumber = 0; snapshotNumber < header.snapshotsCount; snapshotNumber++)  // for each snapshot in the file
 		{  
-			processinformation* newSnap = NULL; // Initialize the processes list head
+			processInformation* newSnap = NULL; // Initialize the processes list head
 			
 			if (fread(&process_header, sizeof(processesList_Header), 1, fp) != 0) { // Read the processes list header from the file
 				
 				for (int i = 0; i < process_header.loadedProcesses; i++) { // for each process in the snapshot
-					processinformation* currSnap = (processinformation*)malloc(sizeof(processinformation));
+					processInformation* currSnap = (processInformation*)malloc(sizeof(processInformation));
 					fread(&currSnap->snapshotCounter, sizeof(unsigned int), 1, fp);
 					fread(&currSnap->snapshotTime, sizeof(char) * 100, 1, fp);
 					fread(&currSnap->processID, sizeof(unsigned int), 1, fp);

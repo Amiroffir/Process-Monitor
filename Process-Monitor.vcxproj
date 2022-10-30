@@ -158,15 +158,6 @@
     <ClInclude Include="HtmlDataProcessor.h" />
     <ClInclude Include="UserMenu.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Process-Monitor-HTML\Dynamic-Data-Pages\dynamicDllTable.html" />
-    <None Include="Process-Monitor-HTML\Dynamic-Data-Pages\dynamicProcessesDetails.html" />
-    <None Include="Process-Monitor-HTML\Dynamic-Data-Pages\dynamicProcThatUsedDetails.html" />
-    <None Include="Process-Monitor-HTML\Home-Page\HomePage.html" />
-    <None Include="Process-Monitor-HTML\Static-Src-Pages\StaticDllPage.html" />
-    <None Include="Process-Monitor-HTML\Static-Src-Pages\StaticHomePage.html" />
-    <None Include="Process-Monitor-HTML\Static-Src-Pages\StaticSamplePage.html" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

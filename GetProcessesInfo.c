@@ -11,17 +11,17 @@
 #pragma warning(disable:4996)
 
 int dllCounter; 
-processinformation* currProcess;
+processInformation* currProcess;
 char strTime[100];
 
-	
+
 /// <summary>
 /// Gets the memory information of a process and returns it
 /// </summary>
- struct processinformation* GetMemoryInfo(DWORD processID)
+ struct processInformation* GetMemoryInfo(DWORD processID)
 {
-	 processinformation* currentP;
-	 currentP = (processinformation*)malloc(sizeof(processinformation));
+	 processInformation* currentP;
+	 currentP = (processInformation*)malloc(sizeof(processInformation));
 	 memoryinfo currentM;
 	 dllInfo* currentD;
 	 HANDLE hProcess;
@@ -46,7 +46,7 @@ char strTime[100];
 		char processName[MAX_PATH];
 		size_t numConverted1;
 		wcstombs_s(&numConverted1, processName, MAX_PATH, Buffer, MAX_PATH); 
-		
+
 		strcpy(currentP->processName, processName);
 		currentP->processID = processID;
 		currentP->snapshotCounter = snapshotCounter;
@@ -120,9 +120,9 @@ char strTime[100];
  /// <summary>
 	/// Gets the processes information and returns the processes list head
 	/// </summary>
- struct processinformation* GetProcessesInfo()
+ struct processInformation* GetProcessesInfo()
 {
-	 processinformation* HeadOfProcessList = NULL; 
+	 processInformation* HeadOfProcessList = NULL; 
 	// Get Processes
 	// Receive all process ID
 	DWORD aProcesses[1024], cbNeeded, cProcesses;
@@ -140,13 +140,14 @@ char strTime[100];
 	for (int i = 0; i < cProcesses; i++)  // for each process
 	{ 
 		currProcess = GetMemoryInfo(aProcesses[i]);
-		if (currProcess != NULL) { // if the process is not null
+		if (currProcess != NULL) { 
 			// if the process isn't in the dictionary list, add it
 			if (searchProcess(currProcess->processName,currProcess->processID) == NULL) {
 				addProcToDict(currProcess->processName, currProcess->processID);
 			}
 			HeadOfProcessList = addProcess(currProcess); // add the process to the processes list
 		}
+		free(currProcess);
 	}
 	return HeadOfProcessList; // return the processes list head
 }

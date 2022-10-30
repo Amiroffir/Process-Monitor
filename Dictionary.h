@@ -15,13 +15,11 @@ int PCounter;
 int DCounter;
 
 void addProcToDict(char processName[MAX_PATH], unsigned int processID);
-void printProcDictionary();
 struct processDict* searchProcess(char processName[MAX_PATH], unsigned int processID);
-struct processDict* addProcessToUsedBy(struct processDict* usedByHead, struct processinformation* parentProcess);
+struct processDict* addProcessToUsedBy(struct processDict* usedByHead, struct processInformation* parentProcess);
 
-void addDllToDict(char dllName[MAX_PATH], struct processinformation* parentProc);
-void printDllDictionary();
-struct dllDict* searchDll(char dllName[MAX_PATH], struct processinformation* processToAdd);
+void addDllToDict(char dllName[MAX_PATH], struct processInformation* parentProc);
+struct dllDict* searchDll(char dllName[MAX_PATH], struct processInformation* processToAdd);
 
 struct processDict* procDictHead;
 struct dllDict* dllDictHead;

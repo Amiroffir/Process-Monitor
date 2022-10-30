@@ -92,7 +92,7 @@ int saveTempFile(char* fileName, char* buff, char fileAction[5])
 		LogError(strcat(strerror(GetLastError),"\n"));
 		return 0;
 	}
-	LogEvent("File opened successfully for writing\n");
+	LogEvent("Data File opened successfully for writing\n");
 	fputs(buff, fi);
 
 

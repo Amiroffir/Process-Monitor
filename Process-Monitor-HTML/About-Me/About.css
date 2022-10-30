@@ -1,3 +1,14 @@
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -29,6 +40,7 @@ a.navbar-brand {
 .border-bottom {
   color: gray;
 }
+
 .main-container {
   display: flex;
   flex-direction: row;
@@ -36,19 +48,21 @@ a.navbar-brand {
   align-items: center;
   margin-top: 0px;
   width: 100%;
+  background-color: rgb(27, 27, 27);
 }
+
 .about-section h1 {
   font-size: 70px;
   word-spacing: 7px;
   letter-spacing: 2px;
   font-family: "Lato", sans-serif;
-  animation-name: slide-in-left;
+  animation-name: slide-up;
   animation-duration: 1.7s;
   animation-fill-mode: backwards;
   animation-delay: 0.4s;
 }
 .about-section h2 {
-  animation-name: slide-in-left;
+  animation-name: slide-up;
   animation-duration: 1.7s;
   animation-fill-mode: backwards;
   animation-delay: 1s;
@@ -58,6 +72,62 @@ a.navbar-brand {
   width: 100%;
   opacity: 0.95;
   z-index: -1;
+}
+
+.myImg {
+  display: block;
+  width: 191px;
+  margin-right: auto;
+  margin-bottom: 60px;
+  margin-left: auto;
+  border-radius: 19%;
+  box-shadow: 4px 6px 20px 0 rgba(0, 0, 0, 0.2);
+  animation-name: slide-up;
+  animation-duration: 2s;
+  animation-fill-mode: backwards;
+  animation-delay: 1.5s;
+}
+.about-section {
+  padding: 45px;
+  text-align: center;
+  background-image: url("../images/quinton-coetzee-gpa8Y_Fk7Rg-unsplash\ \(1\).jpg");
+  opacity: 0.93;
+  color: #fff;
+  background-position: 50% 110%;
+}
+.main-content {
+  padding: 10px 50px 50px 50px;
+  text-align: center;
+  color: #fff;
+  width: 55%;
+}
+.main-content p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  text-align: start;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.bg-3 {
+  margin-top: 60px;
+}
+p a {
+  color: #00d6b4;
+  font-size: 16px;
+  text-decoration: none;
+}
+p a:hover {
+  color: #00d6b4;
+  text-decoration: underline;
+}
+.col-sm-4 {
+  padding-top: 25px;
+}
+
+.col-sm-4:hover {
+  transform: perspective(1px) scale(1.15);
+  transition: 0.35s ease-out;
 }
 .footer {
   width: 100%;
@@ -99,87 +169,4 @@ a.navbar-brand {
 }
 .footer-socials:hover {
   filter: grayscale(0%);
-}
-.main-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 0px;
-  width: 100%;
-}
-
-.myImg {
-  display: block;
-  width: 191px;
-  margin-right: auto;
-  margin-bottom: 60px;
-  margin-left: auto;
-  border-radius: 19%;
-  box-shadow: 4px 6px 20px 0 rgba(0, 0, 0, 0.2);
-  animation-name: slide-in-left;
-  animation-duration: 2s;
-  animation-fill-mode: backwards;
-  animation-delay: 1.5s;
-}
-.about-section {
-  padding: 45px;
-  text-align: center;
-  background-image: url("../images/quinton-coetzee-gpa8Y_Fk7Rg-unsplash\ \(1\).jpg");
-  opacity: 0.93;
-  color: #fff;
-  background-position: 50% 110%;
-}
-
-.main-container {
-  background-color: rgb(27, 27, 27);
-}
-.main-content {
-  padding: 10px 50px 50px 50px;
-  text-align: center;
-  color: #fff;
-  width: 55%;
-}
-.main-content p {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 10px;
-  text-align: start;
-  color: #fff;
-  letter-spacing: 0.5px;
-}
-.bg-3 {
-  margin-top: 60px;
-}
-p a {
-  color: #00d6b4;
-  font-size: 16px;
-  text-decoration: none;
-}
-p a:hover {
-  color: #00d6b4;
-  text-decoration: underline;
-}
-.col-sm-4 {
-  padding-top: 25px;
-}
-
-.col-sm-4:hover {
-  transform: perspective(1px) scale(1.15);
-  transition: 0.35s ease-out;
-}
-@keyframes slide-in-left {
-  /* 0% {
-    color: transparent;
-    opacity: 0;
-  } */
-  from {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
 }

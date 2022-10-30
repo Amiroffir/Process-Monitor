@@ -11,7 +11,7 @@ typedef struct MemoryInfo {
 	unsigned long long QuotaPeakPagedPoolUsage;
 	unsigned long long PagefileUsage;
 } memoryinfo;
-typedef struct ProcessInfo {
+typedef struct processInfo {
 	char processName[MAX_PATH];
 	unsigned int processID;
 	memoryinfo memoryinfo;
@@ -19,18 +19,18 @@ typedef struct ProcessInfo {
 	unsigned int totalLoadedDlls;
 	char snapshotTime[100];
 	unsigned int snapshotCounter;
-	struct ProcessInfo* next;
-	struct  ProcessInfo* prev;
-}processinformation;
+	struct processInfo* next;
+	struct  processInfo* prev;
+}processInformation;
 
 typedef struct SnapshotList {
-	processinformation* snapshotData;
+	processInformation* snapshotData;
 	struct SnapshotList* nextSnap;
 	struct SnapshotList* prevSnap;
 }snapshotsList;
 
-struct processinformation* GetMemoryInfo(DWORD processID);
-struct processinformation* GetProcessesInfo();
+struct processInformation* GetMemoryInfo(DWORD processID);
+struct processInformation* GetProcessesInfo();
 unsigned int snapshotCounter;
 
 

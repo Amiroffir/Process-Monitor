@@ -24,7 +24,7 @@ int dllPageCounter = 1; // counter for the dll pages for future using in the dll
 void dynamicChosenDll(dllInfo* currD) { 
 	{
 		strcpy(buffer, "");
-		strcat(buffer, "<td>");
+		strcat(buffer, "<td class=\"name\">");
 		strcat(buffer, currD->dllName); 
 		strcat(buffer, "</td>");
 		strcat(buffer, "<td>");

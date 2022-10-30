@@ -57,6 +57,7 @@ while (chosenNumber != 9)
 			break;
 		case 6:
 			snapshotCounter = 0; //reset the snapshot counter
+			header.snapshotsCount = 0; 
 			printf("\nReset snapshot collection\n");
 			resetSnapshotCollection();
 			strcpy(snapshotListStatus, "Snapshot list status: Empty");
@@ -92,7 +93,6 @@ while (chosenNumber != 9)
 			}
 			break;
 		case 9:
-			printSnapshots();
 			printf("\nDone :)\n");
 			printf("\nThank you & See you soon!\n");
 			LogEvent("Program ended\n");

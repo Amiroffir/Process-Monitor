@@ -45,7 +45,7 @@ void snapshotsDynamicTable() {
 	snapshotsList* currentS = snapshotListHead;
 	int processCnt = 0;
 	int dllCnt = 0;
-	unsigned long totalMemoryUsage = 0;
+	unsigned long long totalMemoryUsage = 0;
 	char copyToBuffer[10000] = {0};
 	// loop through all the snapshots
 	for (int i = 1; i <= snapshotCounter; i++) { 
